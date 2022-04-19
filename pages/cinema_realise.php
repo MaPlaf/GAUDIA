@@ -168,7 +168,7 @@
                         $poster= $row[5];
                         $vote = $row[6];
 
-                        array_push($tableau, array($id, $note, $commentaire, $date_realise, $titre, $annee, $genre, $pays, $resume, $poster, $vote ));
+                        array_push($tableau, array('id'=>$id, 'note'=>$note, 'commentaire'=>$commentaire, 'date_realise'=>$date_realise, 'titre'=>$titre, 'annee'=>$annee, 'genre'=>$genre, 'pays'=>$pays, 'resume'=>$resume, 'poster'=>$poster, 'vote'=>$vote ));
                     }
                 }
 
@@ -191,135 +191,148 @@
                     if($titre != ""){
 
                         for ($row = 0; $row < count($tableau); $row++) {
-                            if(stripos($tableau[$row][4], $titre) !== false){
+                            if(stripos($tableau[$row]['titre'], $titre) !== false){
                                 array_push($titre_tableau, $tableau[$row]);
                             }
                         }
-                        //array_push($filtres_appliques, $titre_tableau);
-                        //$chaine = $chaine . "$titre_tableau";
-
+                        array_push($filtres_appliques, $titre_tableau);
                     }
 
                     for ($row = 0; $row < count($tableau); $row++) {
-
-                        if( $tableau[$row][1] >= $note_min and $tableau[$row][1] <= $note_max) {
-                            
+                        if( $tableau[$row]['note'] >= $note_min and $tableau[$row]['note'] <= $note_max) {
                             array_push($note_tableau, $tableau[$row]);
-                            
                         }
                     }
 
                     array_push($filtres_appliques, $note_tableau);
 
-                    for ($row = 0; $row < count($tableau); $row++) {
 
-                        if( $tableau[$row][10] >= $vote_min and $tableau[$row][10] <= $vote_max) {
-                            
+                    for ($row = 0; $row < count($tableau); $row++) {
+                        if( $tableau[$row]['vote'] >= $vote_min and $tableau[$row]['vote'] <= $vote_max) { 
                             array_push($vote_tableau, $tableau[$row]);
-                            
                         }
                     }
 
                     array_push($filtres_appliques, $vote_tableau);
 
-                    for ($row = 0; $row < count($tableau); $row++) {
 
-                        if( $tableau[$row][5] >= $annee_min and $tableau[$row][5] <= $annee_max) {
-                            
+                    for ($row = 0; $row < count($tableau); $row++) {
+                        if( $tableau[$row]['annee'] >= $annee_min and $tableau[$row]['annee'] <= $annee_max) { 
                             array_push($annee_tableau, $tableau[$row]);
-                            
                         }
                     }
-
+                    
                     array_push($filtres_appliques, $annee_tableau);
 
+
                     if($comment != ""){
-
                         for ($row = 0; $row < count($tableau); $row++) {
-
-                            if(stripos($tableau[$row][2], $comment) !== false){
-                                
+                            if(stripos($tableau[$row]['commentaire'], $comment) !== false){
                                 array_push($commentaire_tableau, $tableau[$row]);
                                 
                             }
                         }
-
                         array_push($filtres_appliques, $commentaire_tableau);
                     }
+
 
                     if($genre != ""){
 
                         for ($row = 0; $row < count($tableau); $row++) {
-
-                            if(stripos($tableau[$row][6], $genre) !== false){
-                                
+                            if(stripos($tableau[$row]['genre'], $genre) !== false){
                                 array_push($genre_tableau, $tableau[$row]);
-                                
                             }
                         }
-
                         array_push($filtres_appliques, $genre_tableau);
                     }
+
 
                     if($pays != ""){
 
                         for ($row = 0; $row < count($tableau); $row++) {
-
-                            if(stripos($tableau[$row][7], $pays) !== false){
-                                
+                            if(stripos($tableau[$row]['pays'], $pays) !== false){
                                 array_push($pays_tableau, $tableau[$row]);
-                                
                             }
                         }
-
                         array_push($filtres_appliques, $pays_tableau);
                     }
 
                     if($resume != ""){
-
                         for ($row = 0; $row < count($tableau); $row++) {
-
-                            if(stripos($tableau[$row][8],$resume) !== false){
-                                
+                            if(stripos($tableau[$row]['resume'],$resume) !== false){ 
                                 array_push($resume_tableau, $tableau[$row]);
-                                
                             }
                         }
-
                         array_push($filtres_appliques, $resume_tableau);
                     }
 
-                    var_export($filtres_appliques);
+                    function serialize_array_values($arr){
+                        foreach($arr as $key=>$val){
+                            sort($val);
+                            $arr[$key]=serialize($val);
+                        }
+                    
+                        return $arr;
+                    }
 
+                    function resultat($arr){
+                        $prev = array();
+     
+                        for ($a = 0; $a < count($arr[0]); $a++ ) {
+                            for ($b = 0; $b < count($arr[1]); $b++ ) {
 
-                    $result = array_intersect($note_tableau, $titre_tableau, $genre_tableau);
-                    print_r($result);
+                                if($arr[0][$a]['id'] == $arr[1][$b]['id']){
 
-                    $columns = array_column($nouveau_tableau, $colone);
-                    array_multisort($columns, $ordre , $nouveau_tableau);
+                                    array_push($prev, $arr[1][$b]);
+                                }
+                            }
+                        }
+                        
+                        
+                        for ($c = 2; $c < count($arr); $c++ ) {
 
-                    for ($row = 0; $row < count($nouveau_tableau); $row++) {
+                            $next = array();
+
+                            for ($d = 0; $d < count($arr[$c]); $d++ ) {
+                                for($e = 0; $e < count($prev); $e++ ) {
+
+                                    if($prev[$e]['id'] == $arr[$c][$d]['id']){
+
+                                        array_push($next, $arr[$c][$d]);
+                                    }
+                                }
+                            }
+
+                            $prev = $next;
+                        }
+
+                        $next;
+                        return $next;
+                    }
+                
+                    $result = resultat($filtres_appliques);
+                    for ($row = 0; $row < count($result); $row++) {
 
                         $listes_listes = $listes_listes . 
-                            '<div class="liste_element" onclick="redirige(`cinema_element.php?id='.$nouveau_tableau[$row][0].'`);">
-                                <img src="'.$nouveau_tableau[$row][9].'" alt="'.$nouveau_tableau[$row][4] .'">
-                                    <h5>'.$nouveau_tableau[$row][4].'</h5>
-                                    <h5 class="noteh5">Votre note : <span> '.$nouveau_tableau[$row][1].'</span></h5>
+                            '<div class="liste_element" onclick="redirige(`cinema_element.php?id='.$result[$row]['id'].'`);">
+                                <img src="'.$result[$row]['poster'].'" alt="'.$result[$row]['titre'] .'">
+                                    <h5 class="noteimg">'.$result[$row]['titre'].'</h5>
+                                    <h5 class="noteh5">Votre note : <span> '.$result[$row]['note'].'</span></h5>
                                 </div>';
                     }
 
                 }else{
 
                     $columns = array_column($tableau, $colone);
-                    array_multisort($columns, $ordre ,$tableau);
+                    array_multisort($columns, $ordre , $tableau);
 
                     for ($row = 0; $row < count($tableau); $row++) {
 
                         $listes_listes = $listes_listes . 
-                            '<div class="liste_element" onclick="redirige(`cinema_element.php?id='.$tableau[$row][0].'`);">
-                                <img src="'.$tableau[$row][9].'" alt="'.$tableau[$row][4] .'">
-                                    <h5>'.$tableau[$row][4].'</h5>
-                                    <h5 class="noteh5">Votre note : <span> '.$tableau[$row][1].'</span></h5>
+                            '<div class="liste_element" onclick="redirige(`cinema_element.php?id='.$tableau[$row]['id'].'`);">
+                                <img src="'.$tableau[$row]['poster'].'" alt="'.$tableau[$row]['titre'] .'">
+                                    <h5 class="noteimg">'.$tableau[$row]['titre'].'</h5>
+                                    <h5 class="noteh5">Votre note : <span> '.$tableau[$row]['note'].'</span></h5>
                                 </div>';
                     }
                 }
@@ -338,23 +351,23 @@
                 
                 switch($classe){
                     case 'date_desc': 
-                        genere_liste(SORT_DESC, 3);
+                        genere_liste(SORT_DESC, 'date_realise');
                         break;
 
                     case 'date_asc': 
-                        genere_liste(SORT_ASC, 3);
+                        genere_liste(SORT_ASC, 'date_realise');
                         break;
 
                     case 'alpha_asc': 
-                        genere_liste(SORT_ASC, 4);
+                        genere_liste(SORT_ASC, 'titre');
                         break;
 
                     case 'alpha_desc': 
-                        genere_liste(SORT_DESC, 4);
+                        genere_liste(SORT_DESC, 'titre');
                         break;
 
                     default: 
-                        genere_liste(SORT_DESC, 3);
+                        genere_liste(SORT_DESC, 'date_realise');
                         break;
                     }
 
@@ -387,36 +400,59 @@
             <div id="filtre">
                 <div id="m_filtre" style="display:none;">
                     <form method="post" id="modif_filtre" class="form_para">
-
-                        <label for="titre">TITRE</label>
-                        <input type="text" name="titre" id="titre" class="cInput">  
-                        <label for="note_min">NOTE MINIMUM</label>
-                        <input type="number" name="note_min" id="note_min" min="0" max="10" value="5" step="0.1" class="cInput">
-                        <label for="note_max">NOTE MAXIMUM</label>
-                        <input type="number" name="note_max" id="note_max" min="0" max="10" value="10" step="0.1" class="cInput">
-                        <label for="vote_min">VOTE IMDB MINIMUM</label>
-                        <input type="number" name="vote_min" id="vote_min" min="0" max="10" value="5" step="0.1" class="cInput">
-                        <label for="vote_max">VOTE IMDB MAXIMUM</label>
-                        <input type="number" name="vote_max" id="vote_max" min="0" max="10" value="10" step="0.1" class="cInput">
-                        <label for="annee_min">ANNEE MINIMUM</label>
-                        <input type="number" name="annee_min" id="annee_min" min="1800" max="2030" value="1960" step="1" class="cInput">
-                        <label for="annee_max">ANNEE MAXIMUM</label>
-                        <input type="number" name="annee_max" id="annee_max" min="1800" max="2030" value="2030" step="1" class="cInput">
-                        <label for="comment">COMMENTAIRE</label>
-                        <input type="text" name="comment" id="comment" class="cInput">
-                        <label for="genre">GENRE</label>
-                        <input type="text" name="genre" id="genre" class="cInput">
-                        <label for="pays">PAYS</label>
-                        <input type="text" name="pays" id="pays" class="cInput">
-                        <label for="resume">RÉSUMÉ</label>
-                        <input type="text" name="resume" id="resume" class="cInput">
-
+                        
+                        <div>
+                            <div>
+                                <label for="titre">TITRE</label>
+                                <input type="text" name="titre" id="titre" class="cInput">
+                            </div>
+                            <div>
+                                <label for="note_min">NOTE MIN</label>
+                                <input type="number" name="note_min" id="note_min" min="0" max="10" value="5" step="0.1" class="cInput">
+                            </div>
+                            <div>
+                                <label for="note_max">NOTE MAX</label>
+                                <input type="number" name="note_max" id="note_max" min="0" max="10" value="10" step="0.1" class="cInput">
+                            </div>
+                            <div>
+                                <label for="vote_min">VOTE IMDB MIN</label>
+                                <input type="number" name="vote_min" id="vote_min" min="0" max="10" value="5" step="0.1" class="cInput">
+                            </div>
+                            <div>
+                                <label for="vote_max">VOTE IMDB MAX</label>
+                                <input type="number" name="vote_max" id="vote_max" min="0" max="10" value="10" step="0.1" class="cInput">
+                            </div>
+                            <div>
+                                <label for="annee_min">ANNEE MIN</label>
+                                <input type="number" name="annee_min" id="annee_min" min="1800" max="2030" value="1960" step="1" class="cInput">
+                            </div>
+                            <div>
+                                <label for="annee_max">ANNEE MAX</label>
+                                <input type="number" name="annee_max" id="annee_max" min="1800" max="2030" value="2030" step="1" class="cInput">
+                            </div>
+                            <div>
+                                <label for="comment">COMMENTAIRES</label>
+                                <input type="text" name="comment" id="comment" class="cInput">
+                            </div>
+                            <div>
+                                <label for="genre">GENRE</label>
+                                <input type="text" name="genre" id="genre" class="cInput">
+                            </div>
+                            <div>
+                                <label for="pays">PAYS</label>
+                                <input type="text" name="pays" id="pays" class="cInput">
+                            </div>
+                            <div>
+                                <label for="resume">RÉSUMÉ</label>
+                                <input type="text" name="resume" id="resume" class="cInput">
+                            </div>
+                        </div>
 
                         <input type="submit" name="filtre_ajout" id="filtre_ajout" class="bouton_a btn_param b" value="APPLIQUER LE(S) FILTRE(S)">
                     </form>
                 </div>
 
-                <button id="filtre_selection" onclick="ouvre('m_filtre','filtre_selection', 'AFFICHER LES FILTRES');" type="button" class="bouton_a btn_param">AFFICHER LES FILTRES</button>
+                <button id="filtre_selection" onclick="ouvre('m_filtre','filtre_selection', 'APPLIQUER DES FILTRES', 'flex', 'ANNULER');" type="button" class="bouton_a">APPLIQUER DES FILTRES</button>
             </div>
 
             <div id="myModal" class="modal">
@@ -428,10 +464,12 @@
                             <div>
                                 <label for="recherche_film">RECHERCHER LE FILM</label>
                                 <input type="text" name="recherche_film" id="recherche_film" class="cInput">
+                                <input type="submit" name="rech_film" id="rech_film" class="bouton_a" value="GO">
                             </div>
                             <div>
                                 <label for="recherche_serie">RECHERCHER LA SÉRIE</label>
                                 <input type="text" name="recherche_serie" id="recherche_serie" class="cInput"></br>
+                                <input type="submit" name="rech_serie" id="rech_serie" class="bouton_a" value="GO">
                             </div>
                             <input type="submit" name="add_film" style="display:none;">
                         </div>

@@ -1,12 +1,13 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<title>GAUDIA</title>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="Stockez, notez et organisez vos loisirs et divertissements, fixez-vous des objectifs en vous créant des listes à réaliser et retrouvez facilement les recettes que vous avez fait, les films que vous avez écouté, les livres que vous avez lu et beaucoup plus encore" />
+		<meta name="keywords" content="listes, loisirs, divertissements, organisation, cinéma, littérature, voyage, gastronomie, jeux, spectacles, activités" />
+		<meta name="theme-color" content="#654472;"/>
 		<link rel="stylesheet" href="../assets/css/style.css" />
         <link rel="icon" type="./image/svg+xml" sizes="32x32" href="../assets/img/icon.svg">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -91,16 +92,16 @@
                             <h3 style="font-size:25px; margin-bottom:3rem;" class="hparam">RÉGLAGE DU FILM/DE LA SÉRIE</h3>
 
                             <div id="m_nom" style="display:none;">
-                                <form method="post" id="modif_element">
+                                <form method="post" id="modif_avis">   
                                     <label for="note">VOTRE NOTE SUR 10</label>
-                                    <input type="number" name="note" id="note" style="width: 370px;" min="0" max="10" value="<?php echo $note?>" step="0.1" required class="cInput" placeholder="Entrez votre prénom..."></br>
+                                    <input type="number" name="note" id="note" style="width: 370px;" min="0" max="10" value="<?php echo $note?>" step="0.1" required class="cInput"></br>
                                     <label for="commentaire">VOS COMMENTAIRES</label>
                                     <textarea rows="4" name="commentaire" id="commentaire" style="width: 370px;" class="cInput_text"><?php echo $commentaire?></textarea></br>
                                     <input type="submit" name="modifelement" id="modifelement" class="bouton_a bouton_c" value="MODIFIER">
                                 </form>
                             </div>
 
-                            <button id="change_nom" onclick="ouvre('m_nom','change_nom','MODIFIER LE NOM');" type="button" class="bouton_a">MODIFIER</button>
+                            <button id="change_nom" onclick="ouvre('m_nom','change_nom','MODIFIER LE NOM', 'inline', 'ANNULER');" type="button" class="bouton_a">MODIFIER</button>
 
                             <div id="supprime_element" style="display:none;">
                                 <form method="post" id="sup_element">
@@ -108,7 +109,7 @@
                                     <input type="submit" name="supp_element" id="supp_element" class="bouton_a bouton_c" value="SUPPRIMER">
                                 </form>
                             </div>
-                            <button id="supression" onclick="ouvre('supprime_element','supression', 'SUPPRIMER');" type="button" class="bouton_a">SUPPRIMER</button>
+                            <button id="supression" onclick="ouvre('supprime_element','supression', 'SUPPRIMER', 'inline', 'ANNULER');" type="button" class="bouton_a">SUPPRIMER</button>
                         </div>
                     
                     </div>

@@ -24,22 +24,18 @@ function ferme_modal(a, b){
 	}
 }
 
-function ouvre(div, btnouvre, message) {
+function ouvre(div, btnouvre, message, styledis, ferme) {
     var spanb = document.getElementById(div);
     var btnouvre = document.getElementById(btnouvre);
 
     if(spanb.style.display == "none") {
-        spanb.style.display = "inline";
-        btnouvre.innerText = "ANNULER";
+        spanb.style.display = styledis;
+        btnouvre.innerText = ferme;
     } else {
         spanb.style.display = "none";
         btnouvre.innerText = message;
     }
 }; 
-            
-function ouvre_modal(){
-    document.getElementById('myModal').style.display = "block";
-}
 
 function envoie_donnee(vise_a, valeur_a, vise_b, valeur_b){
 	var a = document.getElementById(vise_a);
@@ -52,7 +48,6 @@ function envoie_donnee(vise_a, valeur_a, vise_b, valeur_b){
 function redirige(url){
 	window.location.href = url;
 }
-
 
 //API FILMS ET SÉRIES
 

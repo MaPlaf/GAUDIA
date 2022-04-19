@@ -2,6 +2,8 @@ body{
     background-color: #492157;
     font-family: 'Lato', sans-serif;
     margin: 0;
+    width: 100%;
+    height: 100%;
 }
 
 main{
@@ -171,6 +173,7 @@ ul {
 #header-page{
     width: 59%;
     margin: auto;
+    height: 100px;
 }
 
 #header-page div{
@@ -220,6 +223,8 @@ ul {
     display: block;
 }
 
+#deroulant:cl
+
 #deroulant:hover h6{
     color: white;
 }
@@ -234,6 +239,7 @@ nav{
     justify-content: space-between;
     text-align: center;
     margin: auto;
+    max-height: 75px;
 }
 
 nav a{
@@ -243,6 +249,8 @@ nav a{
     font-weight: 600;
     font-size: 1.1rem;
     transition: all 0.5s;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 nav a:hover{
@@ -297,6 +305,7 @@ h3{
 
 footer{
     background-color: #654472;
+    height: 125px;
 }
 
 #footer_box{
@@ -368,6 +377,7 @@ footer a:hover{
     font-size: 50px;
     font-weight: bold;
     align-self: flex-end;
+    z-index: 800;
 }
 
 .close:hover, .close:focus, .closeb:hover, .closeb:focus {
@@ -417,6 +427,7 @@ textarea{
 h3 span{
     font-weight: bolder;
     color: #fff48e;
+    line-height: 35px;
 }
 
 #param{
@@ -443,6 +454,7 @@ h3 span{
 
 .hparam{
     margin-top: 3rem;
+    width: fit-content;
 }
 
 .form_para label{
@@ -527,7 +539,7 @@ h3 span{
     color: #fff48e;
 }
 
-#liste_listes{
+.liste_listes{
     background-color: white;
     font-size: 1.4rem;
     text-align:left;
@@ -540,11 +552,11 @@ h3 span{
     transition: .05s ease;
 }
 
-#liste_listes:hover{
+.liste_listes:hover{
     background-color: #fff48e;
 }
 
-#liste_listes a{
+.liste_listes a{
     text-decoration: none;
     padding:0 1.2rem 0 1.2rem;
     color: #492157;
@@ -553,7 +565,7 @@ h3 span{
     margin: auto;
 }
 
-#liste_listes:hover a{
+.liste_listes:hover a{
     text-decoration: underline;
 }
 
@@ -751,15 +763,12 @@ button{
     flex-wrap: wrap;
     max-width: 1000px;
     justify-content: center;
-    margin-top: 3rem;
-    padding-left: 150px;
 }
 
 .stats_loisir{
     display: flex;
-    flex-direction: row;
-    width: 300px;
-    margin: 2rem 1rem;
+    flex-direction: column;
+    margin: 2rem 4rem;
 }
 
 .stats_loisir h3{
@@ -797,8 +806,10 @@ button{
     background-color: #fff48e;
     border-radius: 15px;
     padding: 1rem;
+    padding-left: 3.5rem;
     list-style-image: none;
-    list-style-type: none;
+    list-style-type:disc;
+    list-style-position: outside;
 }
 
 .mise_en_situation li{
@@ -837,6 +848,7 @@ i{
 
 #infos_element img{
     width: 400px;
+    height: 600px;
 }
 
 #infos_element p{
@@ -953,4 +965,626 @@ i{
 
 .retour img{
     padding-right: 5px;
+}
+
+#filtre{
+    display: flex;
+    flex-direction:column;
+    justify-content:left;
+    width: 864px;
+    margin-top: -45px;
+}
+
+#btn_ouvrirb{
+    background-color: #492157;
+    font-size: 20px;
+}
+
+#filtre_selection{
+    margin: 0 0 5rem 0;
+    background-color: white;
+    color: #492157;
+}
+
+#filtre_selection:hover{
+    background-color: #fff48e;
+}
+
+#m_filtre{
+    flex-direction:column;
+}
+
+#filtre_ajout{
+    margin: 0 0 10px 0;
+}
+
+#filtre_ajout, #filtre_selection{
+    width: fit-content;
+    padding: 0.4rem 0.8rem;
+}
+
+#modif_filtre{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
+}
+
+#modif_filtre div div{
+    width: 21%;
+    padding-right: 2rem;
+}
+
+#modif_filtre div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#modif_filtre div div label{
+letter-spacing: 0.05rem;
+}
+
+#logo_gaudia{
+    height:40px;
+}
+
+#burger_menu{
+    height: 50px;
+    background-color: white;
+    display: none;
+}
+
+#burger_menu:hover{
+    background-color: #fff48e;
+}
+
+#menu{
+    height: 40px;
+    margin: auto 0;
+}
+
+#logo_gaudia_footer{
+    height: 30px;
+    padding: 0;
+}
+
+#icon_compte{
+    max-width: 50px;
+}
+
+.para_apropos img{
+    width: 14%;
+    margin-left: -1rem;
+    padding: 0.4rem;
+    margin-top: 0.5rem;
+}
+
+#contenu_reglage{
+    width: fit-content;
+}
+
+#rech_film, #rech_serie{
+    display: none;
+}
+
+.noteimg{
+    text-align: left;
+}
+
+@media screen and (max-width: 1530px) {
+    nav{
+        width: 81%;
+    }
+
+    #header-page{
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    #pageInscri{
+        width: 80%;
+    }
+
+    #contenant_liste{
+        width: 70%;
+    }
+
+    #contenant_liste_element{
+        width: 85%;
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 1140px) {
+
+    nav{
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 1024px) {
+    #pageInscri{
+        width: 80%;;
+    }
+
+    #footer_box{
+        width: 80%;
+    }
+
+}
+
+@media screen and (max-width: 950px) {
+
+    #infos{
+        text-align: center;
+    }
+
+    #infos_element, #avis_element{
+        flex-direction: column;
+    }
+
+    #avis_element{
+        margin-top: 2rem;
+        width: 400px;
+        margin: auto;
+        margin-bottom: 3rem;
+    }
+
+    #avis_element div{
+        text-align: center;
+        padding: 0;
+    }
+
+    #avis_element p {
+        padding: 0;
+    }
+
+    #avis_element h1{
+        text-align: center;
+        padding: 0.2rem;
+        margin: auto;
+        padding-top: 2rem;
+    }
+
+    #modif_filtre div div{
+        padding: 0.5rem;
+        width: 30%;
+    }
+
+    .modal-content{
+        max-width: 90%;
+    }
+
+    #contenu_reglage{
+        max-width: 90%;
+    }
+    
+    #options, #retour_reglage, #filtre{
+        width: 80%;
+    }
+
+    #pageInscri{
+        flex-direction: column;
+    }
+
+    #pageInscri section{
+        margin-bottom: 5rem;
+    }
+
+    nav{
+        flex-direction: column;
+        z-index: 900;
+        position: absolute;
+        display: none;
+    }
+
+    nav a {
+        background-color: #654472;
+        border: none;
+        color: white;
+    }
+
+    nav a:hover{
+        color: #492157;
+    }
+
+    #burger_menu{
+        height: 50px;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #menu{
+        width: fit-content;
+        margin-left: auto;
+        margin-right: 15%
+    }
+
+    .active{
+        border: none;
+        color: #492157;
+    }
+
+    .para_apropos{
+        width: 80%;
+        margin: auto;
+    }
+
+    .para_apropos p{
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .mise_en_situation{
+        margin-top: 1rem;
+        margin-bottom: 3rem;
+        width: 85%;
+    }
+
+    #param{
+        width: 70%;
+        min-width: 0;
+    }
+
+    .hparam span::before{
+        content: "\A";
+    }
+}
+
+@media screen and (max-width: 700px) {
+
+    .sous{
+        margin-left: -12rem;
+    }
+
+    .prenom_header{
+        display: none;
+    }
+
+    .para_apropos div{
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .para_apropos img{
+        width: 80px;
+        padding: 1rem;
+    }
+
+    .para_apropos h1{
+        margin-bottom: 3rem !important;
+    }
+
+    .pageb_main h1{
+        width: 80%;
+        margin: auto;
+    }
+
+    #contenant_liste_element{
+        text-align: center;
+        width: 80%;
+        margin: auto;
+    }
+
+    #m_nom{
+        width: 85%;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+
+    #rech_film, #rech_serie{
+        display: block;
+        margin-top: -20px;
+    }
+
+    #resultat_recherche{
+        width: 100%;
+        margin: 0;
+    }
+
+    .movie{
+        width: 40%;
+    }
+
+    .modalb{
+        width: 80%;
+    }
+
+    #modif_filtre div div{
+        width: 45%;
+    }
+
+    #elements_recherche{
+        flex-direction: column;
+        margin: auto;
+        width: 80%;
+        margin-top: 0;
+    }
+
+    #ajout_element_film{
+        margin-top: 0;
+    }
+
+    #modif_avis{
+        width: 100%;
+    }
+
+    #modif_avis input, #modif_avis textarea{
+    width: 100% !important;
+    }
+
+    #ajout_element_film{
+        width: 90%;
+    }
+}
+
+
+@media screen and (max-width: 520px) {
+
+    #infos_element img{
+        height: auto;
+        width: 80% !important;
+    }
+
+    #infos{
+        width: 85%;
+        padding: 0 !important;
+        margin: auto;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    #infos h1{
+        margin: auto;
+    }
+
+    #infos div{
+        width: 100%;
+    }
+
+    #avis_element{
+        width: 100%;
+    }
+
+    #infos_element{
+        width: 100%;
+    }
+
+    #avis_element div{
+        width: 85%;
+        margin: auto;
+        margin-top: 1.5rem;
+    }
+
+    #avis_element h1{
+        width: 85%;
+    }
+
+    #modif_filtre div div{
+        padding: 0.3rem;
+    }
+
+    .page_main h1{
+        text-align: center;
+        width: 85%
+    }
+
+    .titre img{
+        width: 90%;
+    }
+
+    #options label{
+        line-height: 30px;
+    }
+
+    #options select{
+        width: 150px;
+    }
+
+    .modal-content{
+        width: 90%;
+        padding: 1rem 0.5rem;
+    }
+
+    .titre{
+        padding: 1.5rem;
+    }
+
+    #footer_box{
+        flex-direction: column;
+    }
+
+    #icon_compte{
+        width: 40px;
+    }
+
+    #logo_gaudia{
+        height: 30px;
+    }
+
+    #logo_gaudia_slogan{
+        height: auto;
+    }
+
+    #logo_connex, #logo_gaudia_slogan{
+        width: 300px;
+        margin-left: auto;
+    }
+
+    #conForm, #inscriForm, #oubliForm, #contact_form, #fermeture_form form {
+        width: 75%;
+    }
+
+    .cInput{
+        width: 80%;
+        margin-left: auto ;
+        margin-right: auto;
+    }
+
+    label{
+        width: 80%;
+        margin-left: auto ;
+        margin-right: auto;
+    }
+
+    #pageInscri{
+        width: 100%;
+    }
+
+    #whyInscri {
+        width: 100%;
+    }
+
+    #whyInscri ul{
+        width: 75%;
+    }
+
+    #iconloisir{
+        width: 80%;
+    }
+
+    #footer_box{
+        width: 80%;
+        flex-direction: column;
+        padding: 0;
+        padding-bottom: 2rem;
+    }
+
+    #footer_box div{
+        padding: 0;
+        text-align: center;
+        margin: auto;
+        width: fit-content;
+        padding-top: 2rem;
+    }
+
+    footer{
+        height: fit-content;
+        width: 100%;
+    }
+
+    #contenant_statistique{
+        width: 100%;
+        padding: 0;
+        margin-top: 2rem;
+    }
+
+    #pageb_main{
+        width: 100%;
+    }
+
+    .pageb_main h1{
+        font-size: 1.8rem;
+        width: 90%;
+        margin: auto;
+    }
+
+    #index_titre{
+        font-size: 1.4rem;
+    }
+
+    .stats_loisir{
+        flex-direction: column;
+        width: fit-content;
+        padding: 0 1rem;
+        margin: 0rem;
+    }
+
+    .stats_loisir h3{
+        font-size: 35px;
+    }
+
+    .pageb_main{
+        min-height: 0;
+        margin-bottom: 0;
+    }
+
+    .titre_page img{
+        height: 25px;
+    }
+
+    .titre_page h3{
+        font-size: 1.2rem;
+        text-align: center;
+        width: 90%;
+        margin: auto;
+        margin-top: 1.5rem;
+    }
+
+    #contact_form{
+        padding: 0;
+    }
+
+    #envoiemail textarea{
+        width: 80%;
+        margin: auto;
+        margin-top: 0.4rem;
+    }
+
+    #envoie_mail{
+        margin-top: 2rem;
+    }
+
+    #contact_form{
+        margin-bottom: 4rem;
+    }
+
+    .mise_en_situation{
+        margin-top: 1rem;
+        margin-bottom: 3rem;
+        padding-left: 30px;
+        width: 85%;
+    }
+
+   #param{
+       width: 90%;
+       text-align: center;
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+    }
+
+    .hparam span{
+        font-size: 1rem;
+    }
+
+    #supprim{
+        margin-bottom: 3rem;
+    }
+
+    #m_prenom, #m_email, #m_motdep{
+        margin: auto;
+    }
+
+    .fermeture_compte h3::before{
+        content: "N'hésitez pas à nous partagez les raisons qui vous ont poussé à fermer votre compte et ce qu'on pourrait faire pour s'améliorer";
+        font-size: initial;
+    }
+
+    .fermeture_compte h3 {
+        font-size: 0;
+        width: 85%;
+      }
+    
+      #envoie_comment{
+          width: 100% !important;
+      }
+
+      #fermeture_form{
+          width: 100%;
+      }
+
+      .vide_h3{
+        width: 80%;
+        text-align: center;
+      }
+
 }

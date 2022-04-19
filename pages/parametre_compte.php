@@ -1,12 +1,13 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<title>GAUDIA</title>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="Stockez, notez et organisez vos loisirs et divertissements, fixez-vous des objectifs en vous créant des listes à réaliser et retrouvez facilement les recettes que vous avez fait, les films que vous avez écouté, les livres que vous avez lu et beaucoup plus encore" />
+		<meta name="keywords" content="listes, loisirs, divertissements, organisation, cinéma, littérature, voyage, gastronomie, jeux, spectacles, activités" />
+		<meta name="theme-color" content="#654472;"/>
 		<link rel="stylesheet" href="../assets/css/style.css" />
         <link rel="icon" type="./image/svg+xml" sizes="32x32" href="../assets/img/icon.svg">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -161,7 +162,8 @@
 
             <div id="param">
 
-                <h3 class="hparam">VOTRE PRÉNOM: <span><?php echo $_SESSION['prenom'] ?></span></h3>
+                <h3 class="hparam">VOTRE PRÉNOM:<br>
+                    <span><?php echo $_SESSION['prenom'] ?></span></h3>
 
                 <div id="m_prenom" style="display:none;">
                     <form method="post" id="modif_prenom" class="form_para">
@@ -173,9 +175,10 @@
                     </form>
                 </div>
 
-                <button id="change_prenom" onclick="ouvre('m_prenom','change_prenom', 'MODIFIER');" type="button" class="bouton_a  btn_param">MODIFIER</button>
+                <button id="change_prenom" onclick="ouvre('m_prenom','change_prenom', 'MODIFIER', 'inline', 'ANNULER');" type="button" class="bouton_a  btn_param">MODIFIER</button>
 
-                <h3 class="hparam">VOTRE COURRIEL: <span><?php echo $_SESSION['email_active'] ?></span></h3>
+                <h3 class="hparam">VOTRE COURRIEL: <br>
+                    <span><?php echo $_SESSION['email_active'] ?></span></h3>
 
                 <div id="m_email" style="display:none;">
                     <form method="post" id="modif_email" class="form_para">
@@ -187,7 +190,7 @@
                     </form>
                 </div>
 
-                <button  id="change_courriel" onclick="ouvre('m_email','change_courriel', 'MODIFIER');" type="button" class="bouton_a  btn_param">MODIFIER</button>
+                <button  id="change_courriel" onclick="ouvre('m_email','change_courriel', 'MODIFIER', 'inline', 'ANNULER');" type="button" class="bouton_a  btn_param">MODIFIER</button>
 
                 <h3 class="hparam">VOTRE MOT DE PASSE</h3>
 
@@ -203,7 +206,7 @@
                     </form>
                 </div>
 
-                <button  id="change_motdep" onclick="ouvre('m_motdep','change_motdep', 'MODIFIER');" type="button" class="bouton_a  btn_param">MODIFIER</button>
+                <button  id="change_motdep" onclick="ouvre('m_motdep','change_motdep', 'MODIFIER', 'inline', 'ANNULER');" type="button" class="bouton_a  btn_param">MODIFIER</button>
 
                 <div id="supprim">
 

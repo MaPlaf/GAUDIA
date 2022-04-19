@@ -1,12 +1,13 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<title>GAUDIA</title>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="Stockez, notez et organisez vos loisirs et divertissements, fixez-vous des objectifs en vous créant des listes à réaliser et retrouvez facilement les recettes que vous avez fait, les films que vous avez écouté, les livres que vous avez lu et beaucoup plus encore" />
+		<meta name="keywords" content="listes, loisirs, divertissements, organisation, cinéma, littérature, voyage, gastronomie, jeux, spectacles, activités" />
+		<meta name="theme-color" content="#654472;"/>
 		<link rel="stylesheet" href="../assets/css/style.css" />
         <link rel="icon" type="./image/svg+xml" sizes="32x32" href="../assets/img/icon.svg">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +40,7 @@
                 
                 foreach($db->query("SELECT * FROM films_listes WHERE id_user = $id_user_active ORDER BY $ordre") as $row){
                     $listes_listes = $listes_listes . 
-                                '<div id="liste_listes">
+                                '<div class="liste_listes">
                                     <a href="cinema_liste.php?id='.$row[0].'&liste='.$row[2].'"> '.$row[2] .'</a>
                                 </div>';
                 }
@@ -79,7 +80,7 @@
                     }
 
             }else{
-                $vide = "<h3 style='margin-top:5rem;'>Vous n'avez pas encore créé de liste!</h3>";
+                $vide = "<h3 class='vide_h3' style='margin-top:5rem;'>Vous n'avez pas encore créé de liste!</h3>";
             }
 
             if(isset($_POST["add_list"])){

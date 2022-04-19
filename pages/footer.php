@@ -2,7 +2,7 @@
     <div id="barre"></div>
     <div id="footer_box">
         <div>
-            <a href="index.php"><img src="../assets/img/logo_gaudia.svg" alt="Logo Gaudia" id="logo_gaudia_footer" width="55%"></a>
+            <a href="index.php"><img src="../assets/img/logo_gaudia.svg" alt="Logo Gaudia" id="logo_gaudia_footer"></a>
         </div>
 
         <div id="liens">

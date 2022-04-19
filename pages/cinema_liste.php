@@ -1,12 +1,13 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<title>GAUDIA</title>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="Stockez, notez et organisez vos loisirs et divertissements, fixez-vous des objectifs en vous créant des listes à réaliser et retrouvez facilement les recettes que vous avez fait, les films que vous avez écouté, les livres que vous avez lu et beaucoup plus encore" />
+		<meta name="keywords" content="listes, loisirs, divertissements, organisation, cinéma, littérature, voyage, gastronomie, jeux, spectacles, activités" />
+		<meta name="theme-color" content="#654472;"/>
 		<link rel="stylesheet" href="../assets/css/style.css" />
         <link rel="icon" type="./image/svg+xml" sizes="32x32" href="../assets/img/icon.svg">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -173,7 +174,7 @@
                                         <form method="POST">
                                             <input type="hidden" name="nom" value="'.$row[0] .'" />
                                             <input type="hidden" name="poster" value="'.$row[1].'" />
-                                            <button type="submit" name="supprime_element" id="supprime_element" class="bouton_a btn_survol">SUPPRIMER</button>
+                                            <button type="submit" name="supprime_element" class="bouton_a btn_survol">SUPPRIMER</button>
                                         </form>
                                     </div>
                                 </div>';
@@ -208,7 +209,7 @@
                                     <form method="POST">
                                         <input type="hidden" name="nom" value="'.$val.'" />
                                         <input type="hidden" name="poster" value="'.$key .'" />
-                                        <button type="submit" name="supprime_element" id="supprime_element" class="bouton_a btn_survol">SUPPRIMER</button>
+                                        <button type="submit" name="supprime_element" class="bouton_a btn_survol">SUPPRIMER</button>
                                     </form>
                                 </div>
                             </div>';
@@ -259,7 +260,7 @@
                     }
 
             }else{
-                $vide = "<h3 style='margin-top:5rem;'>Vous n'avez pas encore ajouté de films à cette liste!</h3>";
+                $vide = "<h3 class='vide_h3' style='margin-top:5rem;'>Vous n'avez pas encore ajouté de films à cette liste!</h3>";
             }
 
             if(isset($_POST["modifnom"])){
@@ -337,7 +338,7 @@
                 <button type="button" id="btn_ouvrirb" class="btn_reglage" onclick="ouvrir_modal('myModalb');">MODIFIER <img src="../assets/img/reglage.svg" alt="Reglage" id="Reglage" width="20px"></button>
 
                 <div id="myModalb" class="modal">
-                    <div class="modal-content modalb">
+                    <div class="modal-content">
                         <span class="closeb" onclick="ferme_modal('myModalb', 0);">&times;</span>
 
                         <div id="contenu_reglage">
@@ -351,7 +352,7 @@
                                 </form>
                             </div>
 
-                            <button id="change_nom" onclick="ouvre('m_nom','change_nom','MODIFIER LE NOM');" type="button" class="bouton_a">MODIFIER LE NOM</button>
+                            <button id="change_nom" onclick="ouvre('m_nom','change_nom','MODIFIER LE NOM', 'inline');" type="button" class="bouton_a">MODIFIER LE NOM</button>
 
                             <div id="supprime_liste" style="display:none;">
                                 <form method="post" id="sup_liste">
@@ -359,7 +360,7 @@
                                     <input type="submit" name="supp_liste" id="supp_liste" class="bouton_a bouton_c" value="SUPPRIMER">
                                 </form>
                             </div>
-                            <button id="supression" onclick="ouvre('supprime_liste','supression', 'SUPPRIMER LA LISTE');" type="button" class="bouton_a">SUPPRIMER LA LISTE</button>
+                            <button id="supression" onclick="ouvre('supprime_liste','supression', 'SUPPRIMER LA LISTE', 'inline');" type="button" class="bouton_a">SUPPRIMER LA LISTE</button>
                         </div>
                     
                     </div>
@@ -391,10 +392,12 @@
                             <div>
                                 <label for="recherche_film">RECHERCHER LE FILM</label>
                                 <input type="text" name="recherche_film" id="recherche_film" class="cInput">
+                                <input type="submit" name="rech_film" id="rech_film" class="bouton_a" value="GO">
                             </div>
                             <div>
                                 <label for="recherche_serie">RECHERCHER LA SÉRIE</label>
                                 <input type="text" name="recherche_serie" id="recherche_serie" class="cInput"></br>
+                                <input type="submit" name="rech_serie" id="rech_serie" class="bouton_a" value="GO">
                             </div>
                             <input type="submit" name="add_film" style="display:none;">
                         </div>
