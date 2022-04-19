@@ -25,7 +25,7 @@
         <a class="nav_a" href="gastronomie.php">GASTRONOMIE</a>
         <a class="nav_a" href="jeux.php">JEUX</a>
         <a class="nav_a" href="spectacles.php">SPECTACLES</a>
-        <a class="nav_a" href="autres_activites.php">AUTRES ACTIVITÉS</a>
+        <a class="nav_a" href="activite.php">AUTRES ACTIVITÉS</a>
     </nav>
 </div>
 

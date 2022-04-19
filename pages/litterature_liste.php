@@ -46,23 +46,22 @@
 
                 if($resultat_a == 0){
 
-                    $q = $db->prepare("INSERT INTO livres(titre, annee, categorie, editeur, auteur, resume, poster, nbpage) VALUES(:titre, :annee, :categorie, :editeur, :auteur, :resume, :poster, :nbpage)");
+                    $q = $db->prepare("INSERT INTO livres(titre, auteur, annee, genre, resume, poster, nbpage) VALUES(:titre , :auteur, :annee, :genre, :resume, :poster, :nbpage)");
                     $q->execute([
-                        'titre' => $nom,
-                        'annee' => $annee,
-                        'categorie' => $categorie,
-                        'editeur' => $editeur,
+                        'titre' => $titre,
                         'auteur' => $auteur,
+                        'annee' => $annee,
+                        'genre' => $genre,
                         'resume' => $resume,
-                        'poster' => $poster,
-                        'nbpage' => $nbpage
+                        'poster' => $couverture,
+                        'nbpage' => $page
                         ]);
                         
                     $b = $db->prepare("SELECT id FROM livres WHERE resume = :resume");
                     $b->execute([ 'resume' => $resume]);
                     $resultb = $b->fetch();
 
-                    $r = $db->prepare("INSERT INTO livres_users(id_user, id_livres) VALUES(:id_livres, :id_livres)");
+                    $r = $db->prepare("INSERT INTO livres_users(id_user, id_livres) VALUES(:id_user, :id_livres)");
                     $r->execute([
                         'id_user' => $id_user_active,
                         'id_livres' => $resultb['id']
@@ -251,7 +250,7 @@
                     }
 
             }else{
-                $vide = "<h3 style='margin-top:5rem;'>Vous n'avez pas encore ajouté de livres à cette liste!</h3>";
+                $vide = "<h3 class='vide_h3' style='margin-top:5rem;'>Vous n'avez pas encore ajouté de livres à cette liste!</h3>";
             }
 
             if(isset($_POST["modifnom"])){
@@ -343,7 +342,7 @@
                                 </form>
                             </div>
 
-                            <button id="change_nom" onclick="ouvre('m_nom','change_nom','MODIFIER LE NOM');" type="button" class="bouton_a">MODIFIER LE NOM</button>
+                            <button id="change_nom" onclick="ouvre('m_nom','change_nom','MODIFIER LE NOM', 'inline', 'ANNULER');" type="button" class="bouton_a">MODIFIER LE NOM</button>
 
                             <div id="supprime_liste" style="display:none;">
                                 <form method="post" id="sup_liste">
@@ -351,7 +350,7 @@
                                     <input type="submit" name="supp_liste" id="supp_liste" class="bouton_a bouton_c" value="SUPPRIMER">
                                 </form>
                             </div>
-                            <button id="supression" onclick="ouvre('supprime_liste','supression', 'SUPPRIMER LA LISTE');" type="button" class="bouton_a">SUPPRIMER LA LISTE</button>
+                            <button id="supression" onclick="ouvre('supprime_liste','supression', 'SUPPRIMER LA LISTE', 'inline', 'ANNULER');" type="button" class="bouton_a">SUPPRIMER LA LISTE</button>
                         </div>
                     
                     </div>
@@ -375,20 +374,43 @@
             </div>
 
             <div id="myModal" class="modal">
-                <div class="modal-content modalb">
+                <div class="modal-content modalc">
                     <span class="close" onclick="ferme_modal('myModal', 1);">&times;</span>
 
                     <form id="ajout_element_livres" method="post">
-                        <div id="elements_recherche">
+                        <div>
                             <div>
-                                <label for="recherche_livres">RECHERCHER LE LIVRE</label>
-                                <input type="text" name="recherche_livres" id="recherche_livres" class="cInput">
+                                <label for="titre">TITRE</label>
+                                <input type="text" name="titre" id="titre" class="cInput" required></br>
                             </div>
-                            <input type="submit" name="add_livre" style="display:none;">
+                            <div>
+                                <label for="auteur">AUTEUR(E)</label>
+                                <input type="text" name="auteur" id="auteur" class="cInput" required></br>
+                            </div>
+                            <div>
+                                <label for="annee">ANNÉE DE PUBLICATION</label>
+                                <input type="number" name="annee" id="annee" min="1700" max="2030" value="2015" step="1" class="cInput" required></br>
+                            </div>
+                            <div>
+                                <label for="genre">GENRE</label>
+                                <input type="text" name="genre" id="genre" class="cInput" required></br>
+                            </div>
+                            <div>
+                                <label for="resume">RÉSUMÉ</label>
+                                <textarea rows="2" name="resume" id="resume" class="cInput_text" required></textarea></br>
+                            </div>
+                            <div>
+                                <label for="page">NOMBRE DE PAGES</label>
+                                <input type="number" name="page" id="page" min="2" max="5000" value="400" step="1" class="cInput" required></br>
+                            </div>
+                            <div>
+                                <label for="couverture">LIEN DE LA COUVERTURE</label>
+                                <input type="text" name="couverture" id="couverture" class="cInput" required></br>
+                            </div>
                         </div>
-                            <div id="resultat_recherche">
 
-                            </div>
+                        <input type="submit" name="add_element" class="bouton_a" value="SAUVEGARDER">
+
                         <?php echo $deja_existe?>
                     </form>
                 </div>
@@ -426,16 +448,6 @@
         <?php require 'footer.php'; ?>
 
         <script src="../assets/js/main.js"></script>
-        <script>
-
-      function handleResponse(response) {
-          console.log(response);
-      for (var i = 0; i < response.items.length; i++) {
-        var item = response.items[i];
-        document.getElementById("contenant_liste_element").innerHTML += "<br>" + item.volumeInfo.title;
-      }
-    }
-    </script>
-    <script src="https://www.googleapis.com/books/v1/volumes?q=harry+potter&callback=handleResponse"></script>
+       
     </body>
 </html> 

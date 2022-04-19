@@ -299,10 +299,6 @@ h3{
     background-color: #654472;
 }
 
-.titre img{
-    height: 85px;
-}
-
 footer{
     background-color: #654472;
     height: 125px;
@@ -340,7 +336,7 @@ footer a:hover{
 
 .page_main{
     margin-top: 3rem;
-    min-height: 570px;
+    min-height: 590px;
 }
 
 .page_main a{
@@ -483,6 +479,10 @@ h3 span{
 #fait_nonfait span{
     opacity: 50%;
     padding: 0.5rem;
+}
+
+#preparation, #ingredient, #description {
+    height: 60px;
 }
 
 .nav_b{
@@ -803,20 +803,16 @@ button{
     width: 95%;
     margin: auto;
     margin-top: 5rem;
-    background-color: #fff48e;
-    border-radius: 15px;
-    padding: 1rem;
-    padding-left: 3.5rem;
     list-style-image: none;
-    list-style-type:disc;
-    list-style-position: outside;
+    list-style-type:none;
+    text-align: center;
 }
 
 .mise_en_situation li{
-    font-size: 18px;
-    color: #492157;
+    font-size: 23px;
+    color: white;
     font-weight: bolder;
-    padding: 0.2rem 1rem;
+    padding: 0.4rem 1rem;
 }
 
 i{
@@ -849,6 +845,7 @@ i{
 #infos_element img{
     width: 400px;
     height: 600px;
+    margin: auto;
 }
 
 #infos_element p{
@@ -1064,12 +1061,32 @@ letter-spacing: 0.05rem;
     width: fit-content;
 }
 
-#rech_film, #rech_serie{
+#rech_film, #rech_serie, #rech_livres{
     display: none;
 }
 
 .noteimg{
     text-align: left;
+}
+
+.modalc{
+    width: 80%;
+}
+
+#ajout_element_livres{
+    width: 80%;
+}
+
+#ajout_element_livres div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#ajout_element_livres div div{
+    width: 30%;
 }
 
 @media screen and (max-width: 1530px) {
@@ -1117,6 +1134,11 @@ letter-spacing: 0.05rem;
 }
 
 @media screen and (max-width: 950px) {
+
+    .titre img{
+        width: 90%;
+        height: 85px;
+    }
 
     #infos{
         text-align: center;
@@ -1220,7 +1242,7 @@ letter-spacing: 0.05rem;
     }
 
     .mise_en_situation{
-        margin-top: 1rem;
+        margin-top: 4rem;
         margin-bottom: 3rem;
         width: 85%;
     }
@@ -1236,6 +1258,10 @@ letter-spacing: 0.05rem;
 }
 
 @media screen and (max-width: 700px) {
+
+    #ajout_element_livres div div{
+        width: 45%;
+    }
 
     .sous{
         margin-left: -12rem;
@@ -1280,7 +1306,7 @@ letter-spacing: 0.05rem;
 
 @media screen and (max-width: 600px) {
 
-    #rech_film, #rech_serie{
+    #rech_film, #rech_serie, #rech_livres{
         display: block;
         margin-top: -20px;
     }
@@ -1329,6 +1355,10 @@ letter-spacing: 0.05rem;
 
 @media screen and (max-width: 520px) {
 
+    #ajout_element_livres div div{
+        width: 49%;
+    }
+
     #infos_element img{
         height: auto;
         width: 80% !important;
@@ -1375,10 +1405,6 @@ letter-spacing: 0.05rem;
     .page_main h1{
         text-align: center;
         width: 85%
-    }
-
-    .titre img{
-        width: 90%;
     }
 
     #options label{
@@ -1538,9 +1564,8 @@ letter-spacing: 0.05rem;
     }
 
     .mise_en_situation{
-        margin-top: 1rem;
+        margin-top: 3rem;
         margin-bottom: 3rem;
-        padding-left: 30px;
         width: 85%;
     }
 

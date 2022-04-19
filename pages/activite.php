@@ -6,7 +6,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content="Stockez, notez et organisez vos loisirs et divertissements, fixez-vous des objectifs en vous créant des listes à réaliser et retrouvez facilement les recettes que vous avez fait, les films que vous avez écouté, les livres que vous avez lu et beaucoup plus encore" />
-		<meta name="keywords" content="listes, loisirs, divertissements, organisation, cinéma, littérature, voyage, gastronomie, jeux, spectacles, activités" />
+		<meta name="keywords" content="listes, loisirs, divertissements, organisation, cinéma, littérature, voyage, gastronomie, jeux, spectacle, activités" />
 		<meta name="theme-color" content="#654472;"/>
 		<link rel="stylesheet" href="../assets/css/style.css" />
         <link rel="icon" type="./image/svg+xml" sizes="32x32" href="../assets/img/icon.svg">
@@ -20,7 +20,7 @@
         <?php require 'header_nav.php';?>
 
         <div class="titre">
-            <img src="../assets/img/titre_litterature.svg" alt="Page Litterature" id="litterature_titre">
+            <img src="../assets/img/titre_autres_activites.svg" alt="Page activite" id="activite_titre">
         </div>
 
         <?php
@@ -38,15 +38,15 @@
                 $id_user_active = $_SESSION['id_user_active'];
                 global $listes_listes;
                 
-                foreach($db->query("SELECT * FROM livres_listes WHERE id_user = $id_user_active ORDER BY $ordre") as $row){
+                foreach($db->query("SELECT * FROM activite_listes WHERE id_user = $id_user_active ORDER BY $ordre") as $row){
                     $listes_listes = $listes_listes . 
                                 '<div class="liste_listes">
-                                    <a href="litterature_liste.php?id='.$row[0].'&liste='.$row[2].'"> '.$row[2] .'</a>
+                                    <a href="activite_liste.php?id='.$row[0].'&liste='.$row[2].'"> '.$row[2] .'</a>
                                 </div>';
                 }
             }
 
-            $e = $db->prepare("SELECT * FROM livres_listes WHERE id_user = $id_user_active");
+            $e = $db->prepare("SELECT * FROM activite_listes WHERE id_user = $id_user_active");
             $e->execute();
             $nb_res = $e->rowCount();
 
@@ -89,24 +89,24 @@
 
                 if(!empty($nom_liste)){
 
-                    $c = $db->prepare("SELECT nom FROM livres_listes WHERE nom = :nom AND id_user = :id_user");
+                    $c = $db->prepare("SELECT nom FROM activite_listes WHERE nom = :nom AND id_user = :id_user");
                     $c->execute([ 'nom' => $nom_liste, 'id_user' => $id_user_active]);
                     $result = $c->rowCount();
                     $result_c = $c->fetch();
 
                     if($result == 0){
 
-                        $q = $db->prepare("INSERT INTO livres_listes(id_user, nom) VALUES(:id_user, :nom)");
+                        $q = $db->prepare("INSERT INTO activite_listes(id_user, nom) VALUES(:id_user, :nom)");
                         $q->execute([
                             'id_user' => $id_user_active,
                             'nom' => $nom_liste,
                             ]);
                         
-                        $qq = $db->prepare("SELECT id FROM livres_listes WHERE nom = :nom AND id_user = :id_user");
+                        $qq = $db->prepare("SELECT id FROM activite_listes WHERE nom = :nom AND id_user = :id_user");
                         $qq->execute([ 'nom' => $nom_liste, 'id_user' => $id_user_active]);
                         $result_qq = $qq->fetch();
 
-                        header("Location: litterature_liste.php?id=".$result_qq['id']."&liste=".$nom_liste."");
+                        header("Location: activite_liste.php?id=".$result_qq['id']."&liste=".$nom_liste."");
                         die();
                                     
                     }else{
@@ -120,7 +120,7 @@
 
         <main class="page_main">
             <div id="fait_nonfait">
-                <a id="afaire" class="nav_b" href="litterature.php">À FAIRE</a><span> | </span><a id="realise" class="nav_b" href="litterature_realise.php">RÉALISÉS</a>
+                <a id="afaire" class="nav_b" href="activite.php">À FAIRE</a><span> | </span><a id="realise" class="nav_b" href="activite_realise.php">RÉALISÉS</a>
             </div>
 
             <div id="options">

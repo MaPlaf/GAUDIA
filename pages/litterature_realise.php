@@ -20,7 +20,7 @@
         <?php require 'header_nav.php'; ?>
 
         <div class="titre">
-            <img src="../assets/img/titre_cinema.svg" alt="Page Cinéma" id="cinema_titre">
+            <img src="../assets/img/titre_litterature.svg" alt="Page Litterature" id="litterature_titre">
         </div>
 
         <?php 
@@ -37,39 +37,35 @@
 
                 extract($_POST);
 
-                if($poster == "https://image.tmdb.org/t/p/w500null"){
-                    $poster = "../assets/img/visuel_non_dispo.svg";
-                }
-
                 $scriptjs = '<script type="text/javascript">function displayFunction(){document.getElementById("myModalc").style.display = "block";};</script>';
-                $appel_script = '<BODY onLoad="displayFunction(), envoie_donnee(`nom_film_pese`,`'.$nom.'`,`poster_film_pese`,`'.$poster.'`);">';
+                $appel_script = '<BODY onLoad="displayFunction(), envoie_donnee(`nom_livre_pese`,`'.$titre.'`,`poster_livre_pese`,`'.$poster.'`);">';
 
-                $a = $db->prepare("SELECT id FROM films WHERE resume = :resume");
+                $a = $db->prepare("SELECT id FROM livres WHERE resume = :resume");
                 $a->execute([ 'resume' => $resume]);
                 $resultat_a = $a->rowCount();
                 $resulta = $a->fetch();
 
                 if($resultat_a == 0){
 
-                    $q = $db->prepare("INSERT INTO films(titre, annee, genre, pays, resume, poster, vote) VALUES(:titre, :annee, :genre, :pays, :resume, :poster, :vote)");
+                    $q = $db->prepare("INSERT INTO livres(titre, auteur, annee, genre, resume, poster, nbpage) VALUES(:titre , :auteur, :annee, :genre, :resume, :poster, :nbpage)");
                     $q->execute([
-                        'titre' => $nom,
+                        'titre' => $titre,
+                        'auteur' => $auteur,
                         'annee' => $annee,
                         'genre' => $genre,
-                        'pays' => $pays,
                         'resume' => $resume,
                         'poster' => $poster,
-                        'vote' => $vote
+                        'nbpage' => $nbpage
                         ]);
                         
-                    $b = $db->prepare("SELECT id FROM films WHERE resume = :resume");
+                    $b = $db->prepare("SELECT id FROM livres WHERE resume = :resume");
                     $b->execute([ 'resume' => $resume]);
                     $resultb = $b->fetch();
 
-                    $r = $db->prepare("INSERT INTO films_users(id_user, id_film) VALUES(:id_user, :id_film)");
+                    $r = $db->prepare("INSERT INTO livres_users(id_user, id_livres) VALUES(:id_user, :id_livres)");
                     $r->execute([
                         'id_user' => $id_user_active,
-                        'id_film' => $resultb['id']
+                        'id_livres' => $resultb['id']
                         ]);
 
                     echo $scriptjs ;
@@ -77,17 +73,17 @@
                                     
                 }else{
 
-                    $d = $db->prepare("SELECT id FROM films_users WHERE id_user = :id_user AND id_film = :id_film");
-                    $d->execute(['id_user' => $id_user_active, 'id_film' => $resulta['id']]);
+                    $d = $db->prepare("SELECT id FROM livres_users WHERE id_user = :id_user AND id_livres = :id_livres");
+                    $d->execute(['id_user' => $id_user_active, 'id_livres' => $resulta['id']]);
                     $resultd = $d->fetch();
                     $resultat_d = $d->rowCount();
 
                     if($resultat_d == 0){
 
-                        $i = $db->prepare("INSERT INTO films_users(id_user, id_film) VALUES(:id_user, :id_film)");
+                        $i = $db->prepare("INSERT INTO livres_users(id_user, id_livres) VALUES(:id_user, :id_livres)");
                         $i->execute([
                             'id_user' => $id_user_active,
-                            'id_film' => $resulta['id']
+                            'id_livres' => $resulta['id']
                             ]);
 
                         echo $scriptjs ;
@@ -95,8 +91,8 @@
 
                     }else{
 
-                        $dd = $db->prepare("SELECT date_realise FROM films_users WHERE id_user = :id_user AND id_film = :id_film");
-                        $dd->execute(['id_user' => $id_user_active, 'id_film' => $resulta['id']]);
+                        $dd = $db->prepare("SELECT date_realise FROM livres_users WHERE id_user = :id_user AND id_livres = :id_livres");
+                        $dd->execute(['id_user' => $id_user_active, 'id_livres' => $resulta['id']]);
                         $resultdd = $dd->fetch();
                     
                         if($resultdd ='null'){
@@ -106,7 +102,7 @@
 
                         }else{
 
-                            $deja_existe = "<p style='color:red; text-align:center;'>Ce film ou cette série a déjà été écouté(e)!</p>";
+                            $deja_existe = "<p style='color:red; text-align:center;'>Ce livre a déjà été lu!</p>";
                             echo '<script type="text/javascript">function displayFunction(){document.getElementById("myModal").style.display = "block";}</script>';
                             echo '<BODY onLoad="displayFunction()">';
                         }
@@ -117,21 +113,21 @@
             if(isset($_POST["ajout_realise"])){
                 extract($_POST);
 
-                $ee = $db->prepare("SELECT id FROM films WHERE titre = :titre AND poster = :poster");
+                $ee = $db->prepare("SELECT id FROM livres WHERE titre = :titre AND poster = :poster");
                 $ee->execute(['titre' => $nom, 'poster' =>$poster]);
                 $resultee = $ee->fetch();
 
-                $hh = $db->prepare("SELECT id FROM films_users WHERE id_user = :id_user AND id_film = :id_film");
-                $hh->execute(['id_user' => $id_user_active, 'id_film' =>$resultee['id']]);
+                $hh = $db->prepare("SELECT id FROM livres_users WHERE id_user = :id_user AND id_livres = :id_livres");
+                $hh->execute(['id_user' => $id_user_active, 'id_livres' =>$resultee['id']]);
                 $resulthh = $hh->fetch();
                 
-                $ff = $db->prepare("UPDATE films_users SET note = ? , commentaire = ?, date_realise = ? WHERE id = ?");
+                $ff = $db->prepare("UPDATE livres_users SET note = ? , commentaire = ?, date_realise = ? WHERE id = ?");
                 $ff->execute([$note, $commentaire, date("Y-m-d h:i:s",time()), $resulthh['id']]);
 
-                $gg = $db->prepare("DELETE FROM films_elements_listes WHERE id_films_user = :id_films_user");
-                $gg->execute(['id_films_user' => $resulthh['id']]);
+                $gg = $db->prepare("DELETE FROM livres_elements_listes WHERE id_livres_user = :id_livres_user");
+                $gg->execute(['id_livres_user' => $resulthh['id']]);
 
-                header("Location: cinema_element.php?id=".$resultee['id']."");
+                header("Location: litterature_element.php?id=".$resultee['id']."");
                 die();
             }
 
@@ -147,19 +143,19 @@
                 $titre = "";
                 $annee = "";
                 $genre = "";
-                $pays = "";
+                $auteur = "";
                 $resume = "";
                 $poster= "";
-                $vote = "";
+                $nbpage = "";
                 $tableau = array();
                 
-                foreach($db->query("SELECT id_film, note, commentaire, date_realise FROM films_users WHERE id_user = $id_user_active AND date_realise != 'null'") as $row ){
+                foreach($db->query("SELECT id_livres, note, commentaire, date_realise FROM livres_users WHERE id_user = $id_user_active AND date_realise != 'null'") as $row ){
                     $id = $row[0];
                     $note = $row[1];
                     $commentaire = $row[2];
                     $date_realise = $row[3];
 
-                    foreach($db->query("SELECT titre, annee, genre, pays, resume, poster, vote FROM films WHERE id = $id") as $row ){
+                    foreach($db->query("SELECT titre, annee, genre, auteur, resume, poster, nbpage FROM livres WHERE id = $id") as $row ){
                         $titre = $row[0];
                         $annee = $row[1];
                         $genre = $row[2];
@@ -168,7 +164,7 @@
                         $poster= $row[5];
                         $vote = $row[6];
 
-                        array_push($tableau, array('id'=>$id, 'note'=>$note, 'commentaire'=>$commentaire, 'date_realise'=>$date_realise, 'titre'=>$titre, 'annee'=>$annee, 'genre'=>$genre, 'pays'=>$pays, 'resume'=>$resume, 'poster'=>$poster, 'vote'=>$vote ));
+                        array_push($tableau, array('id'=>$id, 'note'=>$note, 'commentaire'=>$commentaire, 'date_realise'=>$date_realise, 'titre'=>$titre, 'annee'=>$annee, 'genre'=>$genre, 'auteur'=>$auteur, 'resume'=>$resume, 'poster'=>$poster, 'nbpage'=>$nbpage ));
                     }
                 }
 
@@ -177,12 +173,13 @@
                     $filtres_appliques = array();
                     $titre_tableau = array();
                     $note_tableau = array();
-                    $vote_tableau = array();
+                    $nbpage_tableau = array();
                     $annee_tableau = array();
                     $comment_tableau = array();
                     $genre_tableau = array();
-                    $pays_tableau = array();
+                    $auteur_tableau = array();
                     $resume_tableau = array();
+                    
 
                     if($titre != ""){
 
@@ -204,12 +201,12 @@
 
 
                     for ($row = 0; $row < count($tableau); $row++) {
-                        if( $tableau[$row]['vote'] >= $vote_min and $tableau[$row]['vote'] <= $vote_max) { 
-                            array_push($vote_tableau, $tableau[$row]);
+                        if( $tableau[$row]['nbpage'] >= $nbpage_min and $tableau[$row]['nbpage'] <= $nbpage_max) { 
+                            array_push($nbpage_tableau, $tableau[$row]);
                         }
                     }
 
-                    array_push($filtres_appliques, $vote_tableau);
+                    array_push($filtres_appliques, $nbpage_tableau);
 
 
                     for ($row = 0; $row < count($tableau); $row++) {
@@ -243,14 +240,14 @@
                     }
 
 
-                    if($pays != ""){
+                    if($auteur != ""){
 
                         for ($row = 0; $row < count($tableau); $row++) {
-                            if(stripos($tableau[$row]['pays'], $pays) !== false){
-                                array_push($pays_tableau, $tableau[$row]);
+                            if(stripos($tableau[$row]['auteur'], $auteur) !== false){
+                                array_push($auteur_tableau, $tableau[$row]);
                             }
                         }
-                        array_push($filtres_appliques, $pays_tableau);
+                        array_push($filtres_appliques, $auteur_tableau);
                     }
 
                     if($resume != ""){
@@ -301,7 +298,7 @@
                     for ($row = 0; $row < count($result); $row++) {
 
                         $listes_listes = $listes_listes . 
-                            '<div class="liste_element" onclick="redirige(`cinema_element.php?id='.$result[$row]['id'].'`);">
+                            '<div class="liste_element" onclick="redirige(`litterature_element.php?id='.$result[$row]['id'].'`);">
                                 <img src="'.$result[$row]['poster'].'" alt="'.$result[$row]['titre'] .'">
                                     <h5 class="noteimg">'.$result[$row]['titre'].'</h5>
                                     <h5 class="noteh5">Votre note : <span> '.$result[$row]['note'].'</span></h5>
@@ -316,7 +313,7 @@
                     for ($row = 0; $row < count($tableau); $row++) {
 
                         $listes_listes = $listes_listes . 
-                            '<div class="liste_element" onclick="redirige(`cinema_element.php?id='.$tableau[$row]['id'].'`);">
+                            '<div class="liste_element" onclick="redirige(`litterature_element.php?id='.$tableau[$row]['id'].'`);">
                                 <img src="'.$tableau[$row]['poster'].'" alt="'.$tableau[$row]['titre'] .'">
                                     <h5 class="noteimg">'.$tableau[$row]['titre'].'</h5>
                                     <h5 class="noteh5">Votre note : <span> '.$tableau[$row]['note'].'</span></h5>
@@ -326,7 +323,7 @@
             }
 
             
-            $f = $db->prepare("SELECT id_film, date_realise FROM films_users WHERE id_user = $id_user_active AND date_realise != 'null'");
+            $f = $db->prepare("SELECT id_livres, date_realise FROM livres_users WHERE id_user = $id_user_active AND date_realise != 'null'");
             $f->execute();
             $nb_res = $f->rowCount();
 
@@ -359,13 +356,13 @@
                     }
 
             }else{
-                $vide = "<h3 style='margin-top:5rem;'>Vous n'avez pas encore marqué un film comme réalisé!</h3>";
+                $vide = "<h3 style='margin-top:5rem;'>Vous n'avez pas encore marqué de livre comme réalisé!</h3>";
             }
         ?>
 
         <main class="page_main">
             <div id="fait_nonfait">
-                <a id="afaire" class="nav_b" href="cinema.php">À FAIRE</a><span> | </span><a id="realise" class="nav_b" href="cinema_realise.php">RÉALISÉS</a>
+                <a id="afaire" class="nav_b" href="litterature.php">À FAIRE</a><span> | </span><a id="realise" class="nav_b" href="litterature_realise.php">RÉALISÉS</a>
             </div>
 
             <div id="options">
@@ -380,7 +377,7 @@
                     </select>
                 </form>
 
-                <button type="button" id="btn_ouvrir" onclick="ouvrir_modal('myModal');"><span title="Ajouter un film">+</span></button>
+                <button type="button" id="btn_ouvrir" onclick="ouvrir_modal('myModal');"><span title="Ajouter un livre">+</span></button>
 
             </div>
 
@@ -391,7 +388,11 @@
                         <div>
                             <div>
                                 <label for="titre">TITRE</label>
-                                <input type="text" name="titre" id="titre" class="cInput">
+                                <input type="text" name="titre" id="titre" class="cInput" require>
+                            </div>
+                            <div>
+                                <label for="pays">AUTEUR</label>
+                                <input type="text" name="auteur" id="auteur" class="cInput">
                             </div>
                             <div>
                                 <label for="note_min">NOTE MIN</label>
@@ -402,12 +403,12 @@
                                 <input type="number" name="note_max" id="note_max" min="0" max="10" value="10" step="0.1" class="cInput">
                             </div>
                             <div>
-                                <label for="vote_min">VOTE IMDB MIN</label>
-                                <input type="number" name="vote_min" id="vote_min" min="0" max="10" value="5" step="0.1" class="cInput">
+                                <label for="nbpage_min">NB PAGES MIN</label>
+                                <input type="number" name="nbpage_min" id="nbpage_min" min="0" max="3000" value="100" step="1" class="cInput">
                             </div>
                             <div>
-                                <label for="vote_max">VOTE IMDB MAX</label>
-                                <input type="number" name="vote_max" id="vote_max" min="0" max="10" value="10" step="0.1" class="cInput">
+                                <label for="vote_max">NB PAGES MAX</label>
+                                <input type="number" name="nbpage_max" id="nbpage_max" min="0" max="13000" value="400" step="1" class="cInput">
                             </div>
                             <div>
                                 <label for="annee_min">ANNEE MIN</label>
@@ -426,10 +427,6 @@
                                 <input type="text" name="genre" id="genre" class="cInput">
                             </div>
                             <div>
-                                <label for="pays">PAYS</label>
-                                <input type="text" name="pays" id="pays" class="cInput">
-                            </div>
-                            <div>
                                 <label for="resume">RÉSUMÉ</label>
                                 <input type="text" name="resume" id="resume" class="cInput">
                             </div>
@@ -443,31 +440,49 @@
             </div>
 
             <div id="myModal" class="modal">
-                <div class="modal-content modalb">
+                <div class="modal-content modalc">
                     <span class="close" onclick="ferme_modal('myModal', 1);">&times;</span>
 
-                    <form id="ajout_element_film" method="post">
-                        <div id="elements_recherche">
+                    <form id="ajout_element_livres" method="post">
+                        <div>
                             <div>
-                                <label for="recherche_film">RECHERCHER LE FILM</label>
-                                <input type="text" name="recherche_film" id="recherche_film" class="cInput">
-                                <input type="submit" name="rech_film" id="rech_film" class="bouton_a" value="GO">
+                                <label for="titre">TITRE</label>
+                                <input type="text" name="titre" id="titre" class="cInput" required></br>
                             </div>
                             <div>
-                                <label for="recherche_serie">RECHERCHER LA SÉRIE</label>
-                                <input type="text" name="recherche_serie" id="recherche_serie" class="cInput"></br>
-                                <input type="submit" name="rech_serie" id="rech_serie" class="bouton_a" value="GO">
+                                <label for="auteur">AUTEUR(E)</label>
+                                <input type="text" name="auteur" id="auteur" class="cInput" required></br>
                             </div>
-                            <input type="submit" name="add_film" style="display:none;">
+                            <div>
+                                <label for="annee">ANNÉE DE PUBLICATION</label>
+                                <input type="number" name="annee" id="annee" min="1700" max="2030" value="2015" step="1" class="cInput" required></br>
+                            </div>
+                            <div>
+                                <label for="genre">GENRE</label>
+                                <input type="text" name="genre" id="genre" class="cInput" required></br>
+                            </div>
+                            <div>
+                                <label for="resume">RÉSUMÉ</label>
+                                <textarea rows="2" name="resume" id="resume" class="cInput_text" required></textarea></br>
+                            </div>
+                            <div>
+                                <label for="page">NOMBRE DE PAGES</label>
+                                <input type="number" name="nbpage" id="nbpage" min="2" max="5000" value="400" step="1" class="cInput" required></br>
+                            </div>
+                            <div>
+                                <label for="couverture">LIEN DE LA COUVERTURE</label>
+                                <input type="text" name="poster" id="poster" class="cInput" required></br>
+                            </div>
                         </div>
-                            <div id="resultat_recherche">
-                            </div>
+
+                        <input type="submit" name="add_element" class="bouton_a" value="SAUVEGARDER">
+
                         <?php echo $deja_existe?>
                     </form>
                 </div>
             </div>
 
-            <h1>FILMS/SÉRIES ÉCOUTÉES</h1>
+            <h1>LIVRES LUS</h1>
 
             <?php echo $vide; ?>
 
@@ -486,8 +501,8 @@
                             <input type="number" name="note" id="note" min="0" max="10" value="5" step="0.1" required class="cInput"></br>
                             <label for="commentaire">VOS COMMENTAIRES</label>
                             <textarea rows="4" name="commentaire" id="commentaire" class="cInput_text" placeholder="Si vous en avez, biensûr."></textarea></br>
-                            <input type="hidden" id="nom_film_pese" name="nom" value="" />
-                            <input type="hidden" id="poster_film_pese" name="poster" value="" />
+                            <input type="hidden" id="nom_livre_pese" name="nom" value="" />
+                            <input type="hidden" id="poster_livre_pese" name="poster" value="" />
                             <input type="submit" name="ajout_realise" id="ajout_realise" class="bouton_a" value="SAUVEGARDER">
                         </form>
                     </div>

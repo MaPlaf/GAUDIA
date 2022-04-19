@@ -1,7 +1,7 @@
 const afaire = document.getElementById("afaire");
 const realise = document.getElementById("realise");
 
-if(currentLocation.includes("cinema.php") || currentLocation.includes("liste.php") || currentLocation.includes("litterature.php") ){
+if(currentLocation.includes("cinema.php") || currentLocation.includes("liste.php") || currentLocation.includes("litterature.php") || currentLocation.includes("voyage.php") || currentLocation.includes("gastronomie.php") || currentLocation.includes("jeux.php") || currentLocation.includes("spectacles.php") || currentLocation.includes("activite.php") ){
     afaire.classList.add("activeb");
 }
 
@@ -297,7 +297,3 @@ function findgenreTv($tableau){
 	})
 	return $genre;	
 }
-
-
-//API LIVRES
-

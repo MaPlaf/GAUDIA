@@ -6,7 +6,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content="Stockez, notez et organisez vos loisirs et divertissements, fixez-vous des objectifs en vous créant des listes à réaliser et retrouvez facilement les recettes que vous avez fait, les films que vous avez écouté, les livres que vous avez lu et beaucoup plus encore" />
-		<meta name="keywords" content="listes, loisirs, divertissements, organisation, cinéma, littérature, voyage, gastronomie, jeux, spectacles, activités" />
+		<meta name="keywords" content="listes, loisirs, divertissements, organisation, cinéma, littérature, gastronomie, gastronomie, jeux, spectacles, activités" />
 		<meta name="theme-color" content="#654472;"/>
 		<link rel="stylesheet" href="../assets/css/style.css" />
         <link rel="icon" type="./image/svg+xml" sizes="32x32" href="../assets/img/icon.svg">
@@ -20,7 +20,7 @@
         <?php require 'header_nav.php';?>
 
         <div class="titre">
-            <img src="../assets/img/titre_cinema.svg" alt="Page Cinéma" id="cinema_titre">
+            <img src="../assets/img/titre_gastronomie.svg" alt="Page Gastronomie" id="gastronomie_titre">
         </div>
 
         <?php 
@@ -39,119 +39,106 @@
 
                 extract($_POST);
 
-                if($poster == "https://image.tmdb.org/t/p/w500null"){
-                    $poster = "../assets/img/visuel_non_dispo.svg";
-                }
-
-                $a = $db->prepare("SELECT id FROM films WHERE resume = :resume");
-                $a->execute([ 'resume' => $resume]);
+                $a = $db->prepare("SELECT id FROM gastronomie WHERE nom = :nom");
+                $a->execute([ 'nom' => $nom]);
                 $resultat_a = $a->rowCount();
                 $resulta = $a->fetch();
 
                 if($resultat_a == 0){
 
-                    $q = $db->prepare("INSERT INTO films(titre, annee, genre, pays, resume, poster, vote) VALUES(:titre, :annee, :genre, :pays, :resume, :poster, :vote)");
+                    $q = $db->prepare("INSERT INTO gastronomie(nom, preparation, ingredient, photo) VALUES(:nom, :preparation, :ingredient, :photo)");
                     $q->execute([
-                        'titre' => $nom,
-                        'annee' => $annee,
-                        'genre' => $genre,
-                        'pays' => $pays,
-                        'resume' => $resume,
-                        'poster' => $poster,
-                        'vote' => $vote
+                        'nom' => $nom,
+                        'preparation' => $preparation,
+                        'ingredient' => $ingredient,
+                        'photo' => $photo,
                         ]);
                         
-                    $b = $db->prepare("SELECT id FROM films WHERE resume = :resume");
-                    $b->execute([ 'resume' => $resume]);
+                    $b = $db->prepare("SELECT id FROM gastronomie WHERE nom = :nom");
+                    $b->execute([ 'nom' => $nom]);
                     $resultb = $b->fetch();
 
-                    $r = $db->prepare("INSERT INTO films_users(id_user, id_film) VALUES(:id_user, :id_film)");
+                    $r = $db->prepare("INSERT INTO gastronomie_users(id_user, id_gastronomie) VALUES(:id_user, :id_gastronomie)");
                     $r->execute([
                         'id_user' => $id_user_active,
-                        'id_film' => $resultb['id']
+                        'id_gastronomie' => $resultb['id']
                         ]);
 
-                    $c = $db->prepare("SELECT id FROM films_users WHERE id_user = :id_user AND id_film = :id_film");
-                    $c->execute([ 'id_user' => $id_user_active, 'id_film' => $resultb['id']]);
+                    $c = $db->prepare("SELECT id FROM gastronomie_users WHERE id_user = :id_user AND id_gastronomie = :id_gastronomie");
+                    $c->execute([ 'id_user' => $id_user_active, 'id_gastronomie' => $resultb['id']]);
                     $resultc = $c->fetch();
 
-                    $s = $db->prepare("INSERT INTO films_elements_listes(id_liste, id_films_user) VALUES(:id_liste, :id_films_user)");
+                    $s = $db->prepare("INSERT INTO gastronomie_elements_listes(id_liste, id_gastronomie_user) VALUES(:id_liste, :id_gastronomie_user)");
                     $s->execute([
                         'id_liste' => $id_liste,
-                        'id_films_user' => $resultc['id']
+                        'id_gastronomie_user' => $resultc['id']
                         ]);
 
-                    header("Location: cinema_liste.php?id=".$id_liste."&liste=".$nom_liste."");
+                    header("Location: gastronomie_liste.php?id=".$id_liste."&liste=".$nom_liste."");
                     die();
                                     
                 }else{
 
-                    $d = $db->prepare("SELECT id FROM films_users WHERE id_user = :id_user AND id_film = :id_film");
-                    $d->execute(['id_user' => $id_user_active, 'id_film' => $resulta['id']]);
+                    $d = $db->prepare("SELECT id FROM gastronomie_users WHERE id_user = :id_user AND id_gastronomie = :id_gastronomie");
+                    $d->execute(['id_user' => $id_user_active, 'id_gastronomie' => $resulta['id']]);
                     $resultd = $d->fetch();
                     $resultat_d = $d->rowCount();
 
                     if($resultat_d == 0){
 
-                        $i = $db->prepare("INSERT INTO films_users(id_user, id_film) VALUES(:id_user, :id_film)");
+                        $i = $db->prepare("INSERT INTO gastronomie_users(id_user, id_gastronomie) VALUES(:id_user, :id_gastronomie)");
                         $i->execute([
                             'id_user' => $id_user_active,
-                            'id_film' => $resulta['id']
+                            'id_gastronomie' => $resulta['id']
                             ]);
 
-                        $j = $db->prepare("SELECT id FROM films_users WHERE id_user = :id_user AND id_film = :id_film");
-                        $j->execute([ 'id_user' => $id_user_active, 'id_film' => $resulta['id']]);
+                        $j = $db->prepare("SELECT id FROM gastronomie_users WHERE id_user = :id_user AND id_gastronomie = :id_gastronomie");
+                        $j->execute([ 'id_user' => $id_user_active, 'id_gastronomie' => $resulta['id']]);
                         $resultj = $j->fetch();
 
-                        $k = $db->prepare("INSERT INTO films_elements_listes(id_liste, id_films_user) VALUES(:id_liste, :id_films_user)");
+                        $k = $db->prepare("INSERT INTO gastronomie_elements_listes(id_liste, id_gastronomie_user) VALUES(:id_liste, :id_gastronomie_user)");
                         $k->execute([
                             'id_liste' => $id_liste,
-                            'id_films_user' => $resultj['id']
+                            'id_gastronomie_user' => $resultj['id']
                             ]);
 
-                        header("Location: cinema_liste.php?id=".$id_liste."&liste=".$nom_liste."");
+                        header("Location: gastronomie_liste.php?id=".$id_liste."&liste=".$nom_liste."");
                         die();
 
                     }else{
 
-                        $dd = $db->prepare("SELECT date_realise FROM films_users WHERE id_user = :id_user AND id_film = :id_film");
-                        $dd->execute(['id_user' => $id_user_active, 'id_film' => $resulta['id']]);
+                        $dd = $db->prepare("SELECT date_realise FROM gastronomie_users WHERE id_user = :id_user AND id_gastronomie = :id_gastronomie");
+                        $dd->execute(['id_user' => $id_user_active, 'id_gastronomie' => $resulta['id']]);
                         $resultdd = $dd->fetch();
 
                         if($resultdd ='null'){
 
-                            $e = $db->prepare("SELECT * FROM films_elements_listes WHERE id_liste = :id_liste AND id_films_user = :id_films_user");
-                            $e->execute(['id_liste' => $id_liste, 'id_films_user' =>$resultd['id']]);
+                            $e = $db->prepare("SELECT * FROM gastronomie_elements_listes WHERE id_liste = :id_liste AND id_gastronomie_user = :id_gastronomie_user");
+                            $e->execute(['id_liste' => $id_liste, 'id_gastronomie_user' =>$resultd['id']]);
                             $resultat_e = $e->rowCount();
                             $resulte = $e->fetch();
 
                             if($resultat_e == 0){
-                                $t = $db->prepare("INSERT INTO films_elements_listes(id_liste, id_films_user) VALUES(:id_liste, :id_films_user)");
+                                $t = $db->prepare("INSERT INTO gastronomie_elements_listes(id_liste, id_gastronomie_user) VALUES(:id_liste, :id_gastronomie_user)");
                                 $t->execute([
                                     'id_liste' => $id_liste,
-                                    'id_films_user' => $resultd['id']
+                                    'id_gastronomie_user' => $resultd['id']
                                     ]);
 
-                                    header("Location: cinema_liste.php?id=".$id_liste."&liste=".$nom_liste."");
+                                    header("Location: gastronomie_liste.php?id=".$id_liste."&liste=".$nom_liste."");
                                     die();
 
                             }else{
-                                $deja_existe = "<p style='color:red; text-align:center;'>Ce film est déjà dans la liste!</p>";
-                                echo '<script type="text/javascript">';
-                                echo 'function displayFunction(){document.getElementById("myModal").style.display = "block";};';
-                                echo '</script>';
-
+                                $deja_existe = "<p style='color:red; text-align:center;'>Cette recette est déjà dans la liste!</p>";
+                                echo '<script type="text/javascript">function displayFunction(){document.getElementById("myModal").style.display = "block";};</script>';
                                 echo '<BODY onLoad="displayFunction()">';
                             }
 
                         }else{
 
-                            $deja_existe = "<p style='color:red; text-align:center;'>Ce film ou cette série a déjà été écouté(e)</p>";
-                                echo '<script type="text/javascript">';
-                                echo 'function displayFunction(){document.getElementById("myModal").style.display = "block";};';
-                                echo '</script>';
-    
-                                echo '<BODY onLoad="displayFunction()">';
+                            $deja_existe = "<p style='color:red; text-align:center;'>Cette recette a déjà été réalisée</p>";
+                            echo '<script type="text/javascript">function displayFunction(){document.getElementById("myModal").style.display = "block";};</script>';
+                            echo '<BODY onLoad="displayFunction()">';
                         }
                     }
                 }
@@ -162,19 +149,19 @@
                 $id_liste = $_GET['id'];
                 global $listes_listes;
 
-                foreach($db->query("SELECT id_films_user FROM films_elements_listes WHERE id_liste = $id_liste ORDER BY $ordre") as $row){
-                    foreach($db->query("SELECT id_film FROM films_users WHERE id = $row[0]") as $row){
-                        foreach($db->query("SELECT titre, poster FROM films WHERE id = $row[0]") as $row){
+                foreach($db->query("SELECT id_gastronomie_user FROM gastronomie_elements_listes WHERE id_liste = $id_liste ORDER BY $ordre") as $row){
+                    foreach($db->query("SELECT id_gastronomie FROM gastronomie_users WHERE id = $row[0]") as $row){
+                        foreach($db->query("SELECT nom, photo FROM gastronomie WHERE id = $row[0]") as $row){
                             $listes_listes = $listes_listes . 
                                 '<div class="liste_element">
                                     <img src="'.$row[1].'" alt="'.$row[0] .'">
                                     <h5>'.$row[0] .'</h5>
                                     <div class="survol">
-                                        <button name="ajout_realise" onclick="ouvrir_modal(`myModalc`); envoie_donnee(`nom_film_pese`,`'.$row[0].'`,`poster_film_pese`,`'.$row[1].'`);" class="bouton_a btn_survol">MARQUER COMME RÉALISÉ</button>
+                                        <button name="ajout_realise" onclick="ouvrir_modal(`myModalc`); envoie_donnee(`nom_gastronomie_pese`,`'.$row[0].'`,`photo_gastronomie_pese`,`'.$row[1].'`);" class="bouton_a btn_survol">MARQUER COMME RÉALISÉ</button>
                                         <form method="POST">
                                             <input type="hidden" name="nom" value="'.$row[0] .'" />
-                                            <input type="hidden" name="poster" value="'.$row[1].'" />
-                                            <button type="submit" name="supprime_element" class="bouton_a btn_survol">SUPPRIMER</button>
+                                            <input type="hidden" name="photo" value="'.$row[1].'" />
+                                            <button type="submit" name="supprime_element" id="supprime_element" class="bouton_a btn_survol">SUPPRIMER</button>
                                         </form>
                                     </div>
                                 </div>';
@@ -188,9 +175,9 @@
                 $id_liste = $_GET['id'];
                 $tableau = array();
 
-                foreach($db->query("SELECT id_films_user FROM films_elements_listes WHERE id_liste = $id_liste") as $row){
-                    foreach($db->query("SELECT id_film FROM films_users WHERE id = $row[0]") as $row){
-                        foreach($db->query("SELECT titre, poster FROM films WHERE id = $row[0]") as $row ){
+                foreach($db->query("SELECT id_gastronomie_user FROM gastronomie_elements_listes WHERE id_liste = $id_liste") as $row){
+                    foreach($db->query("SELECT id_gastronomie FROM gastronomie_users WHERE id = $row[0]") as $row){
+                        foreach($db->query("SELECT nom, photo FROM gastronomie WHERE id = $row[0]") as $row ){
                             $tableau[$row[0]] = $row[1];
                         }
                     }
@@ -205,15 +192,15 @@
                                 <img src="'.$val.'" alt="'.$key .'">
                                 <h5>'.$key .'</h5>
                                 <div id="class">
-                                        <button name="ajout_realise'.$val.'" id="'.$key .'" onclick="ouvrir_modal(`myModalc`); envoie_donnee(`nom_film_pese`,`'.$val.'`,`poster_film_pese`,`'.$key .'`);" class="bouton_a btn_survol">MARQUER COMME RÉALISÉ</button>
+                                        <button name="ajout_realise'.$val.'" id="'.$key .'" onclick="ouvrir_modal(`myModalc`); envoie_donnee(`nom_gastronomie_pese`,`'.$val.'`,`photo_gastronomie_pese`,`'.$key .'`);" class="bouton_a btn_survol">MARQUER COMME RÉALISÉ</button>
                                     <form method="POST">
                                         <input type="hidden" name="nom" value="'.$val.'" />
-                                        <input type="hidden" name="poster" value="'.$key .'" />
-                                        <button type="submit" name="supprime_element" class="bouton_a btn_survol">SUPPRIMER</button>
+                                        <input type="hidden" name="photo" value="'.$key .'" />
+                                        <button type="submit" name="supprime_element" id="supprime_element" class="bouton_a btn_survol">SUPPRIMER</button>
                                     </form>
                                 </div>
                             </div>';
-                        }
+                    }
                 }
 
 
@@ -227,7 +214,7 @@
             }
             
 
-            $f = $db->prepare("SELECT * FROM films_elements_listes WHERE id_liste = $id_liste");
+            $f = $db->prepare("SELECT * FROM gastronomie_elements_listes WHERE id_liste = $id_liste");
             $f->execute();
             $nb_res = $f->rowCount();
 
@@ -247,11 +234,11 @@
                         break;
 
                     case 'alpha_asc': 
-                        genere_listealpha("titre asc");
+                        genere_listealpha("nom asc");
                         break;
 
                     case 'alpha_desc': 
-                        genere_listealpha("titre desc");
+                        genere_listealpha("nom desc");
                         break;
 
                     default: 
@@ -260,28 +247,28 @@
                     }
 
             }else{
-                $vide = "<h3 class='vide_h3' style='margin-top:5rem;'>Vous n'avez pas encore ajouté de films à cette liste!</h3>";
+                $vide = "<h3 class='vide_h3' style='margin-top:5rem;'>Vous n'avez pas encore ajouté de recette à cette liste!</h3>";
             }
 
             if(isset($_POST["modifnom"])){
                 extract($_POST);
 
-                $m = $db->prepare("UPDATE films_listes SET nom = ? WHERE id = ?");
+                $m = $db->prepare("UPDATE gastronomie_listes SET nom = ? WHERE id = ?");
                 $m->execute([$nom, $id_liste]);
 
-                header("Location: cinema_liste.php?id=".$id_liste."&liste=".$nom."");
+                header("Location: gastronomie_liste.php?id=".$id_liste."&liste=".$nom."");
                 die();
             }
 
             if(isset($_POST["supp_liste"])){
 
-                $n = $db->prepare("DELETE FROM films_elements_listes WHERE id_liste = :id_liste");
+                $n = $db->prepare("DELETE FROM gastronomie_elements_listes WHERE id_liste = :id_liste");
                 $n->execute(['id_liste' => $id_liste]);
 
-                $o = $db->prepare("DELETE FROM films_listes WHERE id = ?");
+                $o = $db->prepare("DELETE FROM gastronomie_listes WHERE id = ?");
                 $o->execute([$id_liste]);
                 
-                header("Location: cinema.php");
+                header("Location: gastronomie.php");
                 die();
 
             }
@@ -289,39 +276,39 @@
             if(isset($_POST["ajout_realise"])){
                 extract($_POST);
 
-                $ee = $db->prepare("SELECT id FROM films WHERE titre = :titre AND poster = :poster");
-                $ee->execute(['titre' => $nom, 'poster' =>$poster]);
+                $ee = $db->prepare("SELECT id FROM gastronomie WHERE nom = :nom");
+                $ee->execute(['nom' => $nom]);
                 $resultee = $ee->fetch();
 
-                $hh = $db->prepare("SELECT id FROM films_users WHERE id_user = :id_user AND id_film = :id_film");
-                $hh->execute(['id_user' => $id_user_active, 'id_film' =>$resultee['id']]);
+                $hh = $db->prepare("SELECT id FROM gastronomie_users WHERE id_user = :id_user AND id_gastronomie = :id_gastronomie");
+                $hh->execute(['id_user' => $id_user_active, 'id_gastronomie' =>$resultee['id']]);
                 $resulthh = $hh->fetch();
                 
-                $ff = $db->prepare("UPDATE films_users SET note = ? , commentaire = ?, date_realise = ? WHERE id = ?");
+                $ff = $db->prepare("UPDATE gastronomie_users SET note = ? , commentaire = ?, date_realise = ? WHERE id = ?");
                 $ff->execute([$note, $commentaire, date("Y-m-d h:i:s",time()), $resulthh['id']]);
 
-                $gg = $db->prepare("DELETE FROM films_elements_listes WHERE id_films_user = :id_films_user");
-                $gg->execute(['id_films_user' => $resulthh['id']]);
+                $gg = $db->prepare("DELETE FROM gastronomie_elements_listes WHERE id_gastronomie_user = :id_gastronomie_user");
+                $gg->execute(['id_gastronomie_user' => $resulthh['id']]);
 
-                header("Location: cinema_liste.php?id=".$id_liste."&liste=".$nom_liste."");
+                header("Location: gastronomie_liste.php?id=".$id_liste."&liste=".$nom_liste."");
                 die();
             }
 
             if(isset($_POST["supprime_element"])){
                 extract($_POST);
 
-                $aa = $db->prepare("SELECT id FROM films WHERE titre = :titre AND poster = :poster");
-                $aa->execute(['titre' => $nom, 'poster' =>$poster]);
+                $aa = $db->prepare("SELECT id FROM gastronomie WHERE nom = :nom");
+                $aa->execute(['nom' => $nom]);
                 $resultaa = $aa->fetch();
 
-                $bb = $db->prepare("SELECT id FROM films_users WHERE id_user = :id_user AND id_film = :id_film");
-                $bb->execute(['id_user' => $id_user_active, 'id_film' =>$resultaa['id']]);
+                $bb = $db->prepare("SELECT id FROM gastronomie_users WHERE id_user = :id_user AND id_gastronomie = :id_gastronomie");
+                $bb->execute(['id_user' => $id_user_active, 'id_gastronomie' =>$resultaa['id']]);
                 $resultbb = $bb->fetch();
 
-                $o = $db->prepare("DELETE FROM films_elements_listes WHERE id_liste = ? AND id_films_user = ?");
+                $o = $db->prepare("DELETE FROM gastronomie_elements_listes WHERE id_liste = ? AND id_gastronomie_user = ?");
                 $o->execute([$id_liste, $resultbb['id']]);
 
-                header("Location: cinema_liste.php?id=".$id_liste."&liste=".$nom_liste."");
+                header("Location: gastronomie_liste.php?id=".$id_liste."&liste=".$nom_liste."");
                 die();
             }
 
@@ -329,16 +316,16 @@
 
         <main class="page_main">
             <div id="fait_nonfait">
-                <a id="afaire" class="nav_b" href="cinema.php">À FAIRE</a><span> | </span><a id="realise" class="nav_b" href="cinema_realise.php">RÉALISÉS</a>
+                <a id="afaire" class="nav_b" href="gastronomie.php">À FAIRE</a><span> | </span><a id="realise" class="nav_b" href="gastronomie_realise.php">RÉALISÉS</a>
             </div>
 
             <div id="retour_reglage">
-                <a href="cinema.php" class="retour"><img src="../assets/img/retour.svg" alt="Retour" width="25px"> Retour</a>
+                <a href="gastronomie.php" class="retour"><img src="../assets/img/retour.svg" alt="Retour" width="25px"> Retour</a>
 
                 <button type="button" id="btn_ouvrirb" class="btn_reglage" onclick="ouvrir_modal('myModalb');">MODIFIER <img src="../assets/img/reglage.svg" alt="Reglage" id="Reglage" width="20px"></button>
 
                 <div id="myModalb" class="modal">
-                    <div class="modal-content">
+                    <div class="modal-content modalb">
                         <span class="closeb" onclick="ferme_modal('myModalb', 0);">&times;</span>
 
                         <div id="contenu_reglage">
@@ -379,31 +366,36 @@
                     </select>
                 </form>
 
-                <button type="button" id="btn_ouvrir" onclick="ouvrir_modal('myModal');"><span title="Ajouter un film">+</span></button>
+                <button type="button" id="btn_ouvrir" onclick="ouvrir_modal('myModal');"><span title="Ajouter une recette">+</span></button>
 
             </div>
 
             <div id="myModal" class="modal">
-                <div class="modal-content modalb">
+                <div class="modal-content">
                     <span class="close" onclick="ferme_modal('myModal', 1);">&times;</span>
 
-                    <form id="ajout_element_film" method="post">
-                        <div id="elements_recherche">
+                    <form id="ajout_element_gastronomie" method="post">
+                        <div>
                             <div>
-                                <label for="recherche_film">RECHERCHER LE FILM</label>
-                                <input type="text" name="recherche_film" id="recherche_film" class="cInput">
-                                <input type="submit" name="rech_film" id="rech_film" class="bouton_a" value="GO">
+                                <label for="nom">NOM</label></br>
+                                <input type="text" name="nom" id="nom" class="cInput" required></br>
                             </div>
                             <div>
-                                <label for="recherche_serie">RECHERCHER LA SÉRIE</label>
-                                <input type="text" name="recherche_serie" id="recherche_serie" class="cInput"></br>
-                                <input type="submit" name="rech_serie" id="rech_serie" class="bouton_a" value="GO">
+                                <label for="preparation">PRÉPARATION</label></br>
+                                <textarea type="text" name="preparation" id="preparation" class="cInput" required></textarea></br>
                             </div>
-                            <input type="submit" name="add_film" style="display:none;">
+                            <div>
+                                <label for="ingredient">INGRÉDIENTS</label></br>
+                                <textarea type="text" name="ingredient" id="ingredient" class="cInput" required></textarea></br>
+                            </div>
+                            <div>
+                                <label for="photo">URL PHOTO</label></br>
+                                <input type="text" name="photo" id="photo" class="cInput" required></br>
+                            </div>
                         </div>
-                            <div id="resultat_recherche">
 
-                            </div>
+                        <input type="submit" name="add_element" class="bouton_a" value="SAUVEGARDER">
+
                         <?php echo $deja_existe?>
                     </form>
                 </div>
@@ -412,6 +404,7 @@
             <h1><?php echo mb_strtoupper($_GET["liste"])?></h1>
 
             <?php echo $vide;?>
+
 
             <div id="contenant_liste_element">
             <?php echo $listes_listes;?>
@@ -428,8 +421,8 @@
                             <input type="number" name="note" id="note" min="0" max="10" value="5" step="0.1" required class="cInput"></br>
                             <label for="commentaire">VOS COMMENTAIRES</label>
                             <textarea rows="4" name="commentaire" id="commentaire" class="cInput_text" placeholder="Si vous en avez, biensûr."></textarea></br>
-                            <input type="hidden" id="nom_film_pese" name="nom" value="" />
-                            <input type="hidden" id="poster_film_pese" name="poster" value="" />
+                            <input type="hidden" id="nom_gastronomie_pese" name="nom" value="" />
+                            <input type="hidden" id="photo_gastronomie_pese" name="photo" value="" />
                             <input type="submit" name="ajout_realise" id="ajout_realise" class="bouton_a" value="SAUVEGARDER">
                         </form>
                     </div>
@@ -440,5 +433,6 @@
         <?php require 'footer.php'; ?>
 
         <script src="../assets/js/main.js"></script>
+       
     </body>
 </html> 
