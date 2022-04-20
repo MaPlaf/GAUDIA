@@ -396,7 +396,7 @@
                             </div>
                             <div>
                                 <label for="note_min">NOTE MIN</label>
-                                <input type="number" name="note_min" id="note_min" min="0" max="10" value="5" step="0.1" class="cInput">
+                                <input type="number" name="note_min" id="note_min" min="0" max="10" value="0" step="0.1" class="cInput">
                             </div>
                             <div>
                                 <label for="note_max">NOTE MAX</label>
@@ -404,11 +404,11 @@
                             </div>
                             <div>
                                 <label for="nbpage_min">NB PAGES MIN</label>
-                                <input type="number" name="nbpage_min" id="nbpage_min" min="0" max="3000" value="100" step="1" class="cInput">
+                                <input type="number" name="nbpage_min" id="nbpage_min" min="0" max="3000" value="0" step="1" class="cInput">
                             </div>
                             <div>
                                 <label for="vote_max">NB PAGES MAX</label>
-                                <input type="number" name="nbpage_max" id="nbpage_max" min="0" max="13000" value="400" step="1" class="cInput">
+                                <input type="number" name="nbpage_max" id="nbpage_max" min="0" max="13000" value="1000" step="1" class="cInput">
                             </div>
                             <div>
                                 <label for="annee_min">ANNEE MIN</label>
@@ -498,7 +498,7 @@
                         <h3 class="hparam">QU'EST CE QUE VOUS<br> EN AVEZ PENSÉ?</h3>
                         <form method="post" id="ajoutrealise">
                             <label for="note">VOTRE NOTE SUR 10</label>
-                            <input type="number" name="note" id="note" min="0" max="10" value="5" step="0.1" required class="cInput"></br>
+                            <input type="number" name="note" id="note" min="0" max="10" value="0" step="0.1" required class="cInput"></br>
                             <label for="commentaire">VOS COMMENTAIRES</label>
                             <textarea rows="4" name="commentaire" id="commentaire" class="cInput_text" placeholder="Si vous en avez, biensûr."></textarea></br>
                             <input type="hidden" id="nom_livre_pese" name="nom" value="" />

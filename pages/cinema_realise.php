@@ -262,6 +262,8 @@
                         array_push($filtres_appliques, $resume_tableau);
                     }
 
+                    
+
                     function resultat($arr){
                         $prev = array();
      
@@ -298,6 +300,8 @@
                     }
                 
                     $result = resultat($filtres_appliques);
+
+                    var_dump($result);
                     for ($row = 0; $row < count($result); $row++) {
 
                         $listes_listes = $listes_listes . 
@@ -395,7 +399,7 @@
                             </div>
                             <div>
                                 <label for="note_min">NOTE MIN</label>
-                                <input type="number" name="note_min" id="note_min" min="0" max="10" value="5" step="0.1" class="cInput">
+                                <input type="number" name="note_min" id="note_min" min="0" max="10" value="0" step="0.1" class="cInput">
                             </div>
                             <div>
                                 <label for="note_max">NOTE MAX</label>
@@ -403,7 +407,7 @@
                             </div>
                             <div>
                                 <label for="vote_min">VOTE IMDB MIN</label>
-                                <input type="number" name="vote_min" id="vote_min" min="0" max="10" value="5" step="0.1" class="cInput">
+                                <input type="number" name="vote_min" id="vote_min" min="0" max="10" value="0" step="0.1" class="cInput">
                             </div>
                             <div>
                                 <label for="vote_max">VOTE IMDB MAX</label>

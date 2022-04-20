@@ -418,7 +418,7 @@
                         <h3 class="hparam">QU'EST CE QUE VOUS<br> EN AVEZ PENSÉ?</h3>
                         <form method="post" id="ajoutrealise">
                             <label for="note">VOTRE NOTE SUR 10</label>
-                            <input type="number" name="note" id="note" min="0" max="10" value="5" step="0.1" required class="cInput"></br>
+                            <input type="number" name="note" id="note" min="0" max="10" value="0" step="0.1" required class="cInput"></br>
                             <label for="commentaire">VOS COMMENTAIRES</label>
                             <textarea rows="4" name="commentaire" id="commentaire" class="cInput_text" placeholder="Si vous en avez, biensûr."></textarea></br>
                             <input type="hidden" id="nom_jeux_pese" name="nom" value="" />
