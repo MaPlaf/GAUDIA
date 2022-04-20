@@ -165,7 +165,7 @@
                     $ville_tableau = array();
                     $pays_tableau = array();
                     $note_tableau = array();
-                    $comment_tableau = array();
+                    $commentaire_tableau = array();
                     $description_tableau = array();
                     
 
@@ -188,14 +188,14 @@
                     array_push($filtres_appliques, $note_tableau);
 
 
-                    if($comment != ""){
+                    if($commentaire != ""){
                         for ($row = 0; $row < count($tableau); $row++) {
-                            if(stripos($tableau[$row]['comment'], $comment) !== false){
-                                array_push($comment_tableau, $tableau[$row]);
+                            if(stripos($tableau[$row]['commentaire'], $commentaire) !== false){
+                                array_push($commentaire_tableau, $tableau[$row]);
                                 
                             }
                         }
-                        array_push($filtres_appliques, $comment_tableau);
+                        array_push($filtres_appliques, $commentaire_tableau);
                     }
 
                     if($pays != ""){
@@ -382,8 +382,8 @@
                                 <input type="number" name="note_max" id="note_max" min="0" max="10" value="10" step="0.1" class="cInput">
                             </div>
                             <div>
-                                <label for="comment">COMMENTAIRES</label>
-                                <input type="text" name="comment" id="comment" class="cInput">
+                                <label for="commentaire">COMMENTAIRES</label>
+                                <input type="text" name="commentaire" id="commentaire" class="cInput">
                             </div>
                             <div>
                                 <label for="description">DESCRIPTION</label>
@@ -399,7 +399,7 @@
             </div>
 
             <div id="myModal" class="modal">
-                <div class="modal-content modalc">
+                <div class="modal-content">
                     <span class="close" onclick="ferme_modal('myModal', 1);">&times;</span>
 
                     <form id="ajout_element_voyage" method="post">

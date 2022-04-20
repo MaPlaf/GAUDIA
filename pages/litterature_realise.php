@@ -159,10 +159,10 @@
                         $titre = $row[0];
                         $annee = $row[1];
                         $genre = $row[2];
-                        $pays = $row[3];
+                        $auteur = $row[3];
                         $resume = $row[4];
                         $poster= $row[5];
-                        $vote = $row[6];
+                        $nbpage = $row[6];
 
                         array_push($tableau, array('id'=>$id, 'note'=>$note, 'commentaire'=>$commentaire, 'date_realise'=>$date_realise, 'titre'=>$titre, 'annee'=>$annee, 'genre'=>$genre, 'auteur'=>$auteur, 'resume'=>$resume, 'poster'=>$poster, 'nbpage'=>$nbpage ));
                     }
@@ -175,7 +175,7 @@
                     $note_tableau = array();
                     $nbpage_tableau = array();
                     $annee_tableau = array();
-                    $comment_tableau = array();
+                    $commentaire_tableau = array();
                     $genre_tableau = array();
                     $auteur_tableau = array();
                     $resume_tableau = array();
@@ -218,14 +218,14 @@
                     array_push($filtres_appliques, $annee_tableau);
 
 
-                    if($comment != ""){
+                    if($commentaire != ""){
                         for ($row = 0; $row < count($tableau); $row++) {
-                            if(stripos($tableau[$row]['comment'], $comment) !== false){
-                                array_push($comment_tableau, $tableau[$row]);
+                            if(stripos($tableau[$row]['commentaire'], $commentaire) !== false){
+                                array_push($commentaire_tableau, $tableau[$row]);
                                 
                             }
                         }
-                        array_push($filtres_appliques, $comment_tableau);
+                        array_push($filtres_appliques, $commentaire_tableau);
                     }
 
 
@@ -419,8 +419,8 @@
                                 <input type="number" name="annee_max" id="annee_max" min="1800" max="2030" value="2030" step="1" class="cInput">
                             </div>
                             <div>
-                                <label for="comment">COMMENTAIRES</label>
-                                <input type="text" name="comment" id="comment" class="cInput">
+                                <label for="commentaire">COMMENTAIRES</label>
+                                <input type="text" name="commentaire" id="commentaire" class="cInput">
                             </div>
                             <div>
                                 <label for="genre">GENRE</label>

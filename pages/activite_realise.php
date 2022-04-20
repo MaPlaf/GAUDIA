@@ -188,9 +188,9 @@
                     array_push($filtres_appliques, $note_tableau);
 
 
-                    if($comment != ""){
+                    if($commentaire != ""){
                         for ($row = 0; $row < count($tableau); $row++) {
-                            if(stripos($tableau[$row]['commentaire'], $comment) !== false){
+                            if(stripos($tableau[$row]['commentaire'], $commentaire) !== false){
                                 array_push($commentaire_tableau, $tableau[$row]);
                                 
                             }
@@ -385,8 +385,8 @@
                                 <input type="number" name="note_max" id="note_max" min="0" max="10" value="10" step="0.1" class="cInput">
                             </div>
                             <div>
-                                <label for="comment">COMMENTAIRES</label>
-                                <input type="text" name="comment" id="comment" class="cInput">
+                                <label for="commentaire">COMMENTAIRES</label>
+                                <input type="text" name="commentaire" id="commentaire" class="cInput">
                             </div>
                         </div>
 

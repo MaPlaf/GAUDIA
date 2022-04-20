@@ -179,7 +179,7 @@
                     $note_tableau = array();
                     $vote_tableau = array();
                     $annee_tableau = array();
-                    $comment_tableau = array();
+                    $commentaire_tableau = array();
                     $genre_tableau = array();
                     $pays_tableau = array();
                     $resume_tableau = array();
@@ -221,14 +221,14 @@
                     array_push($filtres_appliques, $annee_tableau);
 
 
-                    if($comment != ""){
+                    if($commentaire != ""){
                         for ($row = 0; $row < count($tableau); $row++) {
-                            if(stripos($tableau[$row]['comment'], $comment) !== false){
-                                array_push($comment_tableau, $tableau[$row]);
+                            if(stripos($tableau[$row]['commentaire'], $commentaire) !== false){
+                                array_push($commentaire_tableau, $tableau[$row]);
                                 
                             }
                         }
-                        array_push($filtres_appliques, $comment_tableau);
+                        array_push($filtres_appliques, $commentaire_tableau);
                     }
 
 
@@ -418,8 +418,8 @@
                                 <input type="number" name="annee_max" id="annee_max" min="1800" max="2030" value="2030" step="1" class="cInput">
                             </div>
                             <div>
-                                <label for="comment">COMMENTAIRES</label>
-                                <input type="text" name="comment" id="comment" class="cInput">
+                                <label for="commentaire">COMMENTAIRES</label>
+                                <input type="text" name="commentaire" id="commentaire" class="cInput">
                             </div>
                             <div>
                                 <label for="genre">GENRE</label>
